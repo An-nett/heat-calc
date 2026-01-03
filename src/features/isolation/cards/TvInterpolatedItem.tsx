@@ -43,7 +43,7 @@ export const TvInterpolatedItem = () => {
 
         <div className="text-right">
           <div className="text-2xl font-semibold tabular-nums">
-            {tAvgResult?.tAvg ? tAvgResult.tAvg.toFixed(0) : "—"}°C
+            {tAvgResult?.tAvg ? tAvgResult.tAvg.toFixed(0) : "—"}
           </div>
           <div className="text-xs text-muted-foreground">°C</div>
         </div>

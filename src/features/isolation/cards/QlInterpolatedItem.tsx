@@ -5,8 +5,11 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { useDerivedValues } from "../model/hooks/useDerivedValues";
 
 export const QlInterpolatedItem = () => {
+  const { ql } = useDerivedValues();
+
   return (
     <div className="rounded-md border p-4">
       <div className="flex items-start justify-between gap-4">
@@ -20,7 +23,9 @@ export const QlInterpolatedItem = () => {
         </div>
 
         <div className="text-right">
-          <div className="text-2xl font-semibold tabular-nums">{38.2}</div>
+          <div className="text-2xl font-semibold tabular-nums">
+            {ql?.result.exact.toFixed(1) ?? "—"}
+          </div>
           <div className="text-xs text-muted-foreground">Вт/м</div>
         </div>
       </div>
