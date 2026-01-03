@@ -59,8 +59,7 @@ export const LAYING_CONDITION_LABEL: Record<LayingCondition, string> = {
 export const LAYING_METHOD = {
   STEEL_MOVABLE: "steel_movable",
   STEEL_SUSPENDED: "steel_suspended",
-  NONMETAL_MOVABLE: "nonmetal_movable",
-  NONMETAL_SUSPENDED: "nonmetal_suspended",
+  NONMETAL_MOVABLE: "nonmetal",
   TRENCHLESS: "trenchless",
 } as const;
 
@@ -69,7 +68,6 @@ export type LayingMethod = (typeof LAYING_METHOD)[keyof typeof LAYING_METHOD];
 export const LAYING_METHOD_LABEL: Record<LayingMethod, string> = {
   steel_movable: "Стальные трубопроводы на подвижных опорах",
   steel_suspended: "Стальные трубопроводы на подвесных опорах",
-  nonmetal_movable: "Неметаллические трубопроводы на подвижных опорах",
-  nonmetal_suspended: "Неметаллические трубопроводы на подвесных опорах",
+  nonmetal: "Неметаллические трубопроводы на подвижных и подвесных опорах",
   trenchless: "Бесканальная прокладка",
 };
