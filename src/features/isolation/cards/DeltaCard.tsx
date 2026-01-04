@@ -3,17 +3,22 @@ import "katex/dist/katex.min.css";
 import { BlockMath } from "react-katex";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
+import { useDerivedValues } from "../model/hooks/useDerivedValues";
+import { useFormContext, useWatch } from "react-hook-form";
+import type { CalcFormValues } from "../model/form";
 
 export const DeltaCard = () => {
-  // заглушки (потом подставишь реальные)
-  const d = 159; // мм (наружный диаметр)
-  const B = 2.1846;
+  const { control } = useFormContext<CalcFormValues>();
+  const { inputs } = useWatch({ control });
+  const { delta, B } = useDerivedValues();
 
-  const delta = 94.2; // мм
+  const d = inputs?.pipe_diameter ?? 0;
+  const b = B?.toFixed(4) ?? 0;
+  const deltaValue = delta?.toFixed(1) ?? 0;
 
   const formula = String.raw`\delta = \frac{d\,(B - 1)}{2}`;
 
-  const substitution = String.raw`\delta = \frac{${d}\cdot(${B} - 1)}{2} = ${delta}\ \text{мм}`;
+  const substitution = String.raw`\delta = \frac{${d}\cdot(${b} - 1)}{2} = ${deltaValue}\ \text{мм}`;
 
   return (
     <Card>

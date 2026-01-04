@@ -2,11 +2,10 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Download } from "lucide-react";
+import { useDerivedValues } from "../model/hooks/useDerivedValues";
 
 export const ResultCard = () => {
-  // заглушки
-  const delta = 94.2;
-  const units = "мм";
+  const { delta } = useDerivedValues();
 
   return (
     <Card>
@@ -22,9 +21,9 @@ export const ResultCard = () => {
 
           <div className="mt-2 flex flex-wrap items-end gap-x-3 gap-y-1">
             <div className="text-4xl font-semibold tracking-tight tabular-nums">
-              {delta}
+              {delta?.toFixed(1) ?? "—"}
             </div>
-            <div className="pb-1 text-base text-muted-foreground">{units}</div>
+            <div className="pb-1 text-base text-muted-foreground">мм</div>
           </div>
 
           <div className="mt-3 text-xs text-muted-foreground">

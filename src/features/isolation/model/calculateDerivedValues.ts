@@ -7,6 +7,7 @@ import { getQl } from "./normatives/qlTable";
 import type { BilinearInterpolationResult } from "@/shared/model/calcualteBilinearInterpolation";
 import { getRn } from "./normatives/RnTable";
 import { calculateB } from "./calculateB";
+import { calculateDelta } from "./calculateDelta";
 
 export interface DerivedValues {
   tAvgResult: AvgTempResult | null; // Средняя температура теплоносителя, °C
@@ -15,6 +16,7 @@ export interface DerivedValues {
   rn: BilinearInterpolationResult | null; // Линейное термическое сопротивление B, м·°C/Вт
   lnB: Decimal | null;
   B: Decimal | null;
+  delta: Decimal | null;
 }
 
 export const calculateDerivedValues = (
@@ -42,6 +44,10 @@ export const calculateDerivedValues = (
     ql: ql?.result.exact ?? null,
     rn: rn?.result.exact ?? null,
   });
+  const delta = calculateDelta({
+    d: values.inputs.pipe_diameter,
+    B,
+  });
 
   return {
     tAvgResult,
@@ -50,5 +56,6 @@ export const calculateDerivedValues = (
     rn,
     lnB,
     B,
+    delta,
   };
 };
