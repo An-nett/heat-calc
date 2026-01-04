@@ -3,24 +3,27 @@ import "katex/dist/katex.min.css";
 import { BlockMath } from "react-katex";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
+import { useDerivedValues } from "../model/hooks/useDerivedValues";
+import type { CalcFormValues } from "../model/form";
+import { useFormContext, useWatch } from "react-hook-form";
 
 export const LnBCard = () => {
-  // заглушки (потом подставишь реальные значения)
-  const lambda = 0.04;
-  const K = 1.15;
-  const tv = 90;
-  const tn = -5.6;
-  const ql = 38.2;
-  const Rn = 0.05;
+  const { control } = useFormContext<CalcFormValues>();
+  const { inputs } = useWatch({ control });
 
-  const lnB = 0.781436;
-  const B = 2.1846;
+  const { k, tAvgResult, ql, rn, lnB, B } = useDerivedValues();
+
+  const tAvg = tAvgResult?.tAvg?.toFixed(0) ?? 0;
+  const q_l = ql?.result.exact.toFixed(1) ?? 0;
+  const r_n = rn?.result.exact.toFixed(2) ?? 0;
+  const lambda = inputs?.material?.main?.lambda ?? 0;
+  const tn = inputs?.t_ambient ?? 0;
 
   // формула (красивая, с индексами)
   const formula = String.raw`\ln B = 2\pi\lambda\left(\frac{K\,(t_v - t_n)}{q_l} - R_n\right)`;
 
   // подстановка (тоже KaTeX)
-  const substitution = String.raw`\ln B = 2\cdot 3.14\cdot ${lambda}\left(\frac{${K}\cdot\left(${tv} - (${tn})\right)}{${ql}} - ${Rn}\right)`;
+  const substitution = String.raw`\ln B = 2\cdot 3.14\cdot ${lambda}\left(\frac{${k}\cdot\left(${tAvg} - (${tn})\right)}{${q_l}} - ${r_n}\right)`;
 
   return (
     <Card>
@@ -69,14 +72,14 @@ export const LnBCard = () => {
               <div className="rounded-md border bg-muted/30 p-3">
                 <div className="text-xs text-muted-foreground">ln(B)</div>
                 <div className="mt-1 text-xl font-semibold tabular-nums">
-                  {lnB}
+                  {lnB?.toFixed(6) ?? "—"}
                 </div>
               </div>
 
               <div className="rounded-md border bg-muted/30 p-3">
                 <div className="text-xs text-muted-foreground">B</div>
                 <div className="mt-1 text-xl font-semibold tabular-nums">
-                  {B}
+                  {B?.toFixed(4) ?? "—"}
                 </div>
               </div>
             </div>

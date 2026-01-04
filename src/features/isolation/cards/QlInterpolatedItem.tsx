@@ -6,9 +6,20 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { useDerivedValues } from "../model/hooks/useDerivedValues";
+import { useFormContext, useWatch } from "react-hook-form";
+import type { CalcFormValues } from "../model/form";
 
 export const QlInterpolatedItem = () => {
-  const { ql } = useDerivedValues();
+  const { control } = useFormContext<CalcFormValues>();
+  const { inputs } = useWatch({ control });
+  const { ql, tAvgResult } = useDerivedValues();
+
+  const renderDescription = () => {
+    if (!ql) return "Данные отсутствуют";
+    return `Билинейная интерполяция по D = ${
+      inputs?.pipe_diameter ?? "—"
+    } мм и tᵥ = ${tAvgResult?.tAvg?.toFixed(0) ?? "—"}°C`;
+  };
 
   return (
     <div className="rounded-md border p-4">
@@ -18,7 +29,7 @@ export const QlInterpolatedItem = () => {
             Нормируемая плотность теплового потока, qₗ
           </div>
           <div className="text-xs text-muted-foreground">
-            Интерполяция по tᵥ = {130}°C между {100}°C и {150}°C
+            {renderDescription()}
           </div>
         </div>
 
@@ -40,15 +51,42 @@ export const QlInterpolatedItem = () => {
 
           <AccordionContent className="pt-3">
             <div className="grid gap-2 text-xs text-muted-foreground">
-              <div className="flex justify-between">
-                <span>{95}°C</span>
-                <span className="tabular-nums">qₗ = {65}</span>
-              </div>
-
-              <div className="flex justify-between">
-                <span>{150}°C</span>
-                <span className="tabular-nums">qₗ = {90}</span>
-              </div>
+              {ql && (
+                <>
+                  <div className="flex justify-between">
+                    <span>
+                      D = {ql.axes.x1} мм, tᵥ = {ql.axes.y1}°C
+                    </span>
+                    <span className="tabular-nums">
+                      qₗ = {ql.tablePoints.z11.toFixed(1)}
+                    </span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span>
+                      D = {ql.axes.x2} мм, tᵥ = {ql.axes.y1}°C
+                    </span>
+                    <span className="tabular-nums">
+                      qₗ = {ql.tablePoints.z12.toFixed(1)}
+                    </span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span>
+                      D = {ql.axes.x1} мм, tᵥ = {ql.axes.y2}°C
+                    </span>
+                    <span className="tabular-nums">
+                      qₗ = {ql.tablePoints.z21.toFixed(1)}
+                    </span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span>
+                      D = {ql.axes.x2} мм, tᵥ = {ql.axes.y2}°C
+                    </span>
+                    <span className="tabular-nums">
+                      qₗ = {ql.tablePoints.z22.toFixed(1)}
+                    </span>
+                  </div>
+                </>
+              )}
 
               <div className="pt-2">
                 <span>

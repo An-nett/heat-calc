@@ -5,8 +5,22 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { useDerivedValues } from "../model/hooks/useDerivedValues";
+import { useFormContext, useWatch } from "react-hook-form";
+import type { CalcFormValues } from "../model/form";
 
 export const RnInterpolatedItem = () => {
+  const { control } = useFormContext<CalcFormValues>();
+  const { inputs } = useWatch({ control });
+  const { rn, tAvgResult } = useDerivedValues();
+
+  const renderDescription = () => {
+    if (!rn) return "Данные отсутствуют";
+    return `Билинейная интерполяция по D = ${
+      inputs?.pipe_diameter ?? "—"
+    } мм и tᵥ = ${tAvgResult?.tAvg?.toFixed(0) ?? "—"}°C`;
+  };
+
   return (
     <div className="rounded-md border p-4">
       <div className="flex items-start justify-between gap-4">
@@ -15,12 +29,14 @@ export const RnInterpolatedItem = () => {
             Линейное термическое сопротивление, Rₙ
           </div>
           <div className="text-xs text-muted-foreground">
-            Интерполяция по tᵥ = {130}°C между {100}°C и {150}°C
+            {renderDescription()}
           </div>
         </div>
 
         <div className="text-right">
-          <div className="text-2xl font-semibold tabular-nums">{0.12}</div>
+          <div className="text-2xl font-semibold tabular-nums">
+            {rn?.result.exact.toFixed(2) ?? "—"}
+          </div>
           <div className="text-xs text-muted-foreground">м·°C/Вт</div>
         </div>
       </div>
@@ -35,15 +51,42 @@ export const RnInterpolatedItem = () => {
 
           <AccordionContent className="pt-3">
             <div className="grid gap-2 text-xs text-muted-foreground">
-              <div className="flex justify-between">
-                <span>{100}°C</span>
-                <span className="tabular-nums">R = {0.1}</span>
-              </div>
-
-              <div className="flex justify-between">
-                <span>{150}°C</span>
-                <span className="tabular-nums">R = {0.15}</span>
-              </div>
+              {rn && (
+                <>
+                  <div className="flex justify-between">
+                    <span>
+                      D = {rn.axes.x1} мм, tᵥ = {rn.axes.y1}°C
+                    </span>
+                    <span className="tabular-nums">
+                      Rₙ = {rn.tablePoints.z11.toFixed(2)}
+                    </span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span>
+                      D = {rn.axes.x2} мм, tᵥ = {rn.axes.y1}°C
+                    </span>
+                    <span className="tabular-nums">
+                      Rₙ = {rn.tablePoints.z12.toFixed(2)}
+                    </span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span>
+                      D = {rn.axes.x1} мм, tᵥ = {rn.axes.y2}°C
+                    </span>
+                    <span className="tabular-nums">
+                      Rₙ = {rn.tablePoints.z21.toFixed(2)}
+                    </span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span>
+                      D = {rn.axes.x2} мм, tᵥ = {rn.axes.y2}°C
+                    </span>
+                    <span className="tabular-nums">
+                      Rₙ = {rn.tablePoints.z22.toFixed(2)}
+                    </span>
+                  </div>
+                </>
+              )}
 
               <div className="pt-2">
                 <span>
@@ -54,7 +97,7 @@ export const RnInterpolatedItem = () => {
                     target="_blank"
                     rel="noreferrer"
                   >
-                    СП 41.103.2000, табл. 3
+                    СП 61.13330.2012, табл. B.1
                   </a>
                 </span>
               </div>

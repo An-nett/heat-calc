@@ -66,27 +66,15 @@ export const interpolate2DDecimal = (
   const [x1, x2] = findBounds(x, xValueNum);
   const [y1, y2] = findBounds(y, yValueNum);
 
-  console.log("x", x1, x2, "y", y1, y2, "val", xValueNum, yValueNum);
-
   const xi1 = x.indexOf(x1);
   const xi2 = x.indexOf(x2);
   const yi1 = y.indexOf(y1);
   const yi2 = y.indexOf(y2);
 
-  console.log("indices", xi1, xi2, yi1, yi2);
-
-  const z11 = new Decimal(values[xi1][yi1]);
-  const z12 = new Decimal(values[xi2][yi1]);
-  const z21 = new Decimal(values[xi1][yi2]);
-  const z22 = new Decimal(values[xi2][yi2]);
-
-  console.log(
-    "z points",
-    z11.toString(),
-    z12.toString(),
-    z21.toString(),
-    z22.toString()
-  );
+  const z11 = new Decimal(values[yi1][xi1]);
+  const z12 = new Decimal(values[yi2][xi1]);
+  const z21 = new Decimal(values[yi1][xi2]);
+  const z22 = new Decimal(values[yi2][xi2]);
 
   const xD = new Decimal(x2).minus(x1);
   const yD = new Decimal(y2).minus(y1);

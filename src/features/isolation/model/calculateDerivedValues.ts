@@ -5,11 +5,16 @@ import { getK } from "./normatives/kTable";
 import { getAvgTemp, type AvgTempResult } from "./normatives/tAvgTable";
 import { getQl } from "./normatives/qlTable";
 import type { BilinearInterpolationResult } from "@/shared/model/calcualteBilinearInterpolation";
+import { getRn } from "./normatives/RnTable";
+import { calculateB } from "./calculateB";
 
 export interface DerivedValues {
-  tAvgResult: AvgTempResult | null;
+  tAvgResult: AvgTempResult | null; // Средняя температура теплоносителя, °C
   k: Decimal | null; // Коэффициент дополнительных потерь, —
   ql: BilinearInterpolationResult | null; // Нормируемая плотность теплового потока, Вт/м
+  rn: BilinearInterpolationResult | null; // Линейное термическое сопротивление B, м·°C/Вт
+  lnB: Decimal | null;
+  B: Decimal | null;
 }
 
 export const calculateDerivedValues = (
@@ -23,10 +28,27 @@ export const calculateDerivedValues = (
   const tAvgResult = temp !== null ? getAvgTemp(values.mode.flow, temp) : null;
   const k = getK(values.inputs.laying_method, values.inputs.pipe_diameter);
   const ql = getQl(values.inputs.pipe_diameter, tAvgResult?.tAvg ?? null);
+  const rn = getRn(
+    values.inputs.laying_condition,
+    values.inputs.pipe_diameter,
+    tAvgResult?.tAvg ?? null
+  );
+
+  const { lnB, B } = calculateB({
+    lambda: values.inputs.material.main.lambda,
+    K: k,
+    tAvg: tAvgResult?.tAvg ?? null,
+    t_n: values.inputs.t_ambient,
+    ql: ql?.result.exact ?? null,
+    rn: rn?.result.exact ?? null,
+  });
 
   return {
     tAvgResult,
     k,
     ql,
+    rn,
+    lnB,
+    B,
   };
 };
