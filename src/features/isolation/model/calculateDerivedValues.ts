@@ -1,4 +1,4 @@
-import type Decimal from "decimal.js";
+import { type DecimalType, Decimal } from "@/lib/decimal";
 import { FLOW_MODE } from "./calcModes";
 import type { CalcFormValues } from "./form";
 import { getK } from "./normatives/kTable";
@@ -11,12 +11,12 @@ import { calculateDelta } from "./calculateDelta";
 
 export interface DerivedValues {
   tAvgResult: AvgTempResult | null; // Средняя температура теплоносителя, °C
-  k: Decimal | null; // Коэффициент дополнительных потерь, —
+  k: DecimalType | null; // Коэффициент дополнительных потерь, —
   ql: BilinearInterpolationResult | null; // Нормируемая плотность теплового потока, Вт/м
   rn: BilinearInterpolationResult | null; // Линейное термическое сопротивление B, м·°C/Вт
-  lnB: Decimal | null;
-  B: Decimal | null;
-  delta: Decimal | null;
+  lnB: DecimalType | null;
+  B: DecimalType | null;
+  delta: DecimalType | null;
 }
 
 export const calculateDerivedValues = (

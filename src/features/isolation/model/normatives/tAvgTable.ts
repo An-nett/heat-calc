@@ -1,6 +1,6 @@
 import { calculateInterpolation } from "@/shared/model/calculateInterpolation";
 import { FLOW_MODE, type FlowMode } from "../calcModes";
-import Decimal from "decimal.js";
+import { type DecimalType, Decimal } from "@/lib/decimal";
 
 const SUPPLY_AVG_TEMPS = [
   { temp: 95, tAvg: 65 },
@@ -11,7 +11,7 @@ const RETURN_AVG_TEMP = { temp: 70, tAvg: 50 };
 
 export interface AvgTempResult {
   type: "fixed" | "interpolated";
-  tAvg: Decimal | null;
+  tAvg: DecimalType | null;
   x1: number | null;
   y1: number | null;
   x2: number | null;

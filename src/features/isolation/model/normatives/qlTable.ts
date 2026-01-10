@@ -3,7 +3,7 @@ import {
   type BilinearInterpolationResult,
   type Table2D,
 } from "@/shared/model/calcualteBilinearInterpolation";
-import type { Decimal } from "decimal.js";
+import { type DecimalType } from "@/lib/decimal";
 
 const QL_TABLE: Table2D = {
   y: [
@@ -40,7 +40,7 @@ const QL_TABLE: Table2D = {
 
 export function getQl(
   pipe_diameter: number | null,
-  tAvg: Decimal | null
+  tAvg: DecimalType | null
 ): BilinearInterpolationResult | null {
   if (!pipe_diameter || !tAvg) {
     return null;

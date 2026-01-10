@@ -4,7 +4,7 @@ import {
   type Table2D,
 } from "@/shared/model/calcualteBilinearInterpolation";
 import { LAYING_CONDITION, type LayingCondition } from "../calcModes";
-import type Decimal from "decimal.js";
+import { type DecimalType } from "@/lib/decimal";
 
 const AXES = {
   x: [100, 300, 500],
@@ -92,7 +92,7 @@ const RN_BY_LAYING_CONDITION: Record<LayingCondition, Table2D> = {
 export function getRn(
   LayingCondition: LayingCondition,
   pipe_diameter: number | null,
-  tAvg: Decimal | null
+  tAvg: DecimalType | null
 ): BilinearInterpolationResult | null {
   if (!pipe_diameter || !tAvg) {
     return null;

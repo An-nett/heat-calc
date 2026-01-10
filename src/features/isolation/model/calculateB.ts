@@ -1,17 +1,17 @@
-import Decimal from "decimal.js";
+import { type DecimalType, Decimal } from "@/lib/decimal";
 
 export interface LnBCalcInput {
   lambda: number | null; // λ
-  K: Decimal | null; // K
-  tAvg: Decimal | null; // t_v
+  K: DecimalType | null; // K
+  tAvg: DecimalType | null; // t_v
   t_n: number | null; // t_n
-  ql: Decimal | null; // q_l
-  rn: Decimal | null; // R_n
+  ql: DecimalType | null; // q_l
+  rn: DecimalType | null; // R_n
 }
 
 export interface LnBCalcOutput {
-  lnB: Decimal | null;
-  B: Decimal | null;
+  lnB: DecimalType | null;
+  B: DecimalType | null;
 }
 
 export const calculateB = ({

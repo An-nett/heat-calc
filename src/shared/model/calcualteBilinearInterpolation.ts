@@ -1,4 +1,4 @@
-import Decimal from "decimal.js";
+import { type DecimalType, Decimal } from "../../lib/decimal";
 
 export type Table2D = {
   x: number[]; // ось X (например, температуры)
@@ -8,8 +8,8 @@ export type Table2D = {
 
 export type BilinearInterpolationResult = {
   input: {
-    x: Decimal;
-    y: Decimal;
+    x: DecimalType;
+    y: DecimalType;
   };
 
   axes: {
@@ -20,19 +20,19 @@ export type BilinearInterpolationResult = {
   };
 
   tablePoints: {
-    z11: Decimal; // (x1, y1)
-    z12: Decimal; // (x2, y1)
-    z21: Decimal; // (x1, y2)
-    z22: Decimal; // (x2, y2)
+    z11: DecimalType; // (x1, y1)
+    z12: DecimalType; // (x2, y1)
+    z21: DecimalType; // (x1, y2)
+    z22: DecimalType; // (x2, y2)
   };
 
   intermediate: {
-    atY1: Decimal; // интерполяция по X при y1
-    atY2: Decimal; // интерполяция по X при y2
+    atY1: DecimalType; // интерполяция по X при y1
+    atY2: DecimalType; // интерполяция по X при y2
   };
 
   result: {
-    exact: Decimal;
+    exact: DecimalType;
   };
 };
 

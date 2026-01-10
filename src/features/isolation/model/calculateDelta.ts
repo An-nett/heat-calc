@@ -1,11 +1,14 @@
-import Decimal from "decimal.js";
+import { type DecimalType, Decimal } from "@/lib/decimal";
 
 export type DeltaCalcInput = {
   d: number | null; // наружный диаметр трубопровода
-  B: Decimal | null; // коэффициент B
+  B: DecimalType | null; // коэффициент B
 };
 
-export const calculateDelta = ({ d, B }: DeltaCalcInput): Decimal | null => {
+export const calculateDelta = ({
+  d,
+  B,
+}: DeltaCalcInput): DecimalType | null => {
   if (!d || !B) return null;
 
   const dD = new Decimal(d);
