@@ -28,7 +28,7 @@ export const calculateB = ({
   const dLambda = new Decimal(lambda);
   const dTn = new Decimal(t_n);
 
-  const twoPi = new Decimal(2).mul(Decimal.acos(-1)); // 2π без хардкода
+  const twoPi = new Decimal(2).mul(Math.PI); // 2π без хардкода
 
   const inner = K.mul(tAvg.minus(dTn)) // K · (t_v − t_n)
     .div(ql) // / q_l

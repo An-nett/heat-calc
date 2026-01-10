@@ -1,4 +1,4 @@
-import { type DecimalType, Decimal } from "@/lib/decimal";
+import { type DecimalType } from "@/lib/decimal";
 import { FLOW_MODE } from "./calcModes";
 import type { CalcFormValues } from "./form";
 import { getK } from "./normatives/kTable";

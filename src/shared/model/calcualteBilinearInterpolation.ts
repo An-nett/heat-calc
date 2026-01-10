@@ -42,7 +42,10 @@ const findBounds = (axis: number[], value: number): [number, number] => {
     return [axis[axis.length - 1], axis[axis.length - 1]];
 
   for (let i = 0; i < axis.length - 1; i++) {
-    if (value >= axis[i] && value <= axis[i + 1]) {
+    if (value === axis[i]) {
+      return [axis[i], axis[i]];
+    }
+    if (value > axis[i] && value < axis[i + 1]) {
       return [axis[i], axis[i + 1]];
     }
   }
@@ -81,11 +84,11 @@ export const interpolate2DDecimal = (
 
   // интерполяция по X при y1
   const atY1 =
-    x1 === x2 ? z11 : z11.plus(xDecimal.minus(x1).mul(z12.minus(z11)).div(xD));
+    x1 === x2 ? z11 : z11.plus(xDecimal.minus(x1).mul(z21.minus(z11)).div(xD));
 
   // интерполяция по X при y2
   const atY2 =
-    x1 === x2 ? z21 : z21.plus(xDecimal.minus(x1).mul(z22.minus(z21)).div(xD));
+    x1 === x2 ? z12 : z12.plus(xDecimal.minus(x1).mul(z22.minus(z12)).div(xD));
 
   // финальная интерполяция по Y
   const exact =
