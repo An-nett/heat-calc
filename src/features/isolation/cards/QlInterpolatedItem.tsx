@@ -17,7 +17,7 @@ export const QlInterpolatedItem = () => {
   const renderDescription = () => {
     if (!ql) return "Данные отсутствуют";
     return `Билинейная интерполяция по D = ${
-      inputs?.pipe_diameter ?? "—"
+      inputs?.pipe_outer_diameter ?? "—"
     } мм и tᵥ = ${tAvgResult?.tAvg?.toFixed(0) ?? "—"}°C`;
   };
 

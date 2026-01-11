@@ -12,7 +12,7 @@ export const DeltaCard = () => {
   const { inputs } = useWatch({ control });
   const { delta, B } = useDerivedValues();
 
-  const d = inputs?.pipe_diameter ?? 0;
+  const d = inputs?.pipe_outer_diameter ?? 0;
   const b = B?.toFixed(4) ?? 0;
   const deltaValue = delta?.toFixed(1) ?? 0;
 

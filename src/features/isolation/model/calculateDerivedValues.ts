@@ -28,11 +28,19 @@ export const calculateDerivedValues = (
       : values.inputs.t_return;
 
   const tAvgResult = temp !== null ? getAvgTemp(values.mode.flow, temp) : null;
-  const k = getK(values.inputs.laying_method, values.inputs.pipe_diameter);
-  const ql = getQl(values.inputs.pipe_diameter, tAvgResult?.tAvg ?? null);
+  const k = getK(
+    values.inputs.laying_method,
+    values.inputs.pipe_inner_diameter
+  );
+  const ql = getQl(
+    values.inputs.pipe_inner_diameter,
+    tAvgResult?.tAvg ?? null,
+    values.inputs.laying_condition,
+    values.inputs.working_hours
+  );
   const rn = getRn(
     values.inputs.laying_condition,
-    values.inputs.pipe_diameter,
+    values.inputs.pipe_inner_diameter,
     tAvgResult?.tAvg ?? null
   );
 
@@ -45,7 +53,7 @@ export const calculateDerivedValues = (
     rn: rn?.result.exact ?? null,
   });
   const delta = calculateDelta({
-    d: values.inputs.pipe_diameter,
+    d: values.inputs.pipe_outer_diameter,
     B,
   });
 

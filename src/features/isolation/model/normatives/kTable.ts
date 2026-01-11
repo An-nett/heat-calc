@@ -1,5 +1,5 @@
 import { type DecimalType, Decimal } from "@/lib/decimal";
-import { type LayingMethod } from "../calcModes";
+import { LAYING_METHOD, type LayingMethod } from "../calcModes";
 
 const K_CONST: Record<Exclude<LayingMethod, "steel_movable">, number> = {
   steel_suspended: 1.05,
@@ -14,8 +14,10 @@ export const getK = (
   layingMethod: LayingMethod,
   diameterMm: number | null | undefined
 ): DecimalType | null => {
-  if (layingMethod === "steel_movable") {
+  console.log(diameterMm);
+  if (layingMethod === LAYING_METHOD.STEEL_MOVABLE) {
     if (diameterMm == null || Number.isNaN(diameterMm)) {
+      console.log("errorro", Number.isNaN(diameterMm), diameterMm);
       return null;
     }
 

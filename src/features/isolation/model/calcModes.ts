@@ -71,3 +71,19 @@ export const LAYING_METHOD_LABEL: Record<LayingMethod, string> = {
   nonmetal: "Неметаллические трубопроводы на подвижных и подвесных опорах",
   trenchless: "Бесканальная прокладка",
 };
+
+/* -------------------- Число часов работы -------------------- */
+
+export const WORKING_HOURS_PER_YEAR = {
+  MORE_THAN_5000: "more_than_5000",
+  LESS_OR_EQUAL_5000: "less_or_equal_5000",
+} as const;
+
+export type WorkingHoursPerYear =
+  (typeof WORKING_HOURS_PER_YEAR)[keyof typeof WORKING_HOURS_PER_YEAR];
+
+export const WORKING_HOURS_PER_YEAR_LABEL: Record<WorkingHoursPerYear, string> =
+  {
+    more_than_5000: "Более 5000 часов",
+    less_or_equal_5000: "Менее или равно 5000 часов",
+  };

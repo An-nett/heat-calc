@@ -19,7 +19,7 @@ export const RnInterpolatedItem = () => {
   const renderDescription = () => {
     if (!rn) return "Данные отсутствуют";
     return `Билинейная интерполяция по D = ${
-      inputs?.pipe_diameter ?? "—"
+      inputs?.pipe_outer_diameter ?? "—"
     } мм и tᵥ = ${tAvgAsNumber ?? "—"}°C`;
   };
 

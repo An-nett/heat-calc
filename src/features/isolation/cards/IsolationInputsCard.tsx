@@ -11,6 +11,8 @@ import {
   LAYING_CONDITION_LABEL,
   LAYING_METHOD,
   LAYING_METHOD_LABEL,
+  WORKING_HOURS_PER_YEAR,
+  WORKING_HOURS_PER_YEAR_LABEL,
 } from "../model/calcModes";
 
 export const IsolationInputsCard = () => {
@@ -40,11 +42,11 @@ export const IsolationInputsCard = () => {
 
           <div className="grid gap-4 sm:grid-cols-3">
             <Controller
-              name="inputs.pipe_diameter"
+              name="inputs.pipe_outer_diameter"
               control={control}
               render={({ field }) => (
                 <div className="space-y-2">
-                  <Label htmlFor="outerDiameter">
+                  <Label htmlFor={field.name}>
                     Наружный диаметр трубопровода
                   </Label>
                   <div className="flex items-center gap-2">
@@ -62,30 +64,28 @@ export const IsolationInputsCard = () => {
               )}
             />
 
-            <div className="space-y-2">
-              <Label htmlFor="wallThickness">Толщина стенки</Label>
-              <div className="flex items-center gap-2">
-                <Input id="wallThickness" inputMode="decimal" placeholder="4" />
-                <span className="text-sm text-muted-foreground">мм</span>
-              </div>
-            </div>
-
-            <div className="space-y-2">
-              <Label htmlFor="innerDiameter">
-                Внутренний диаметр трубопровода
-              </Label>
-              <div className="flex items-center gap-2">
-                <Input
-                  id="innerDiameter"
-                  inputMode="decimal"
-                  placeholder="150"
-                />
-                <span className="text-sm text-muted-foreground">мм</span>
-              </div>
-              <p className="text-xs text-muted-foreground">
-                Рассчитывается автоматически.
-              </p>
-            </div>
+            <Controller
+              name="inputs.pipe_inner_diameter"
+              control={control}
+              render={({ field }) => (
+                <div className="space-y-2">
+                  <Label htmlFor={field.name}>
+                    Внутренний диаметр трубопровода
+                  </Label>
+                  <div className="flex items-center gap-2">
+                    <Input
+                      type="number"
+                      value={field.value ?? ""}
+                      placeholder="0"
+                      onChange={(e) =>
+                        field.onChange(e.target.valueAsNumber ?? null)
+                      }
+                    />
+                    <span className="text-sm text-muted-foreground">мм</span>
+                  </div>
+                </div>
+              )}
+            />
           </div>
         </section>
 
@@ -108,7 +108,7 @@ export const IsolationInputsCard = () => {
                   control={control}
                   render={({ field }) => (
                     <div className="space-y-2">
-                      <Label htmlFor="lambda">
+                      <Label htmlFor={field.name}>
                         Коэффициент теплопроводности
                       </Label>
                       <div className="flex items-center gap-2">
@@ -137,7 +137,7 @@ export const IsolationInputsCard = () => {
                     control={control}
                     render={({ field }) => (
                       <div className="space-y-2">
-                        <Label htmlFor="compaction_factor">
+                        <Label htmlFor={field.name}>
                           Коэффициент уплотнения
                         </Label>
                         <div className="flex items-center gap-2">
@@ -167,7 +167,7 @@ export const IsolationInputsCard = () => {
                     control={control}
                     render={({ field }) => (
                       <div className="space-y-2">
-                        <Label htmlFor="t_max">
+                        <Label htmlFor={field.name}>
                           Максимальная температура применения
                         </Label>
                         <div className="flex items-center gap-2">
@@ -204,7 +204,7 @@ export const IsolationInputsCard = () => {
                     control={control}
                     render={({ field }) => (
                       <div className="space-y-2">
-                        <Label htmlFor="lambda">
+                        <Label htmlFor={field.name}>
                           Коэффициент теплопроводности
                         </Label>
                         <div className="flex items-center gap-2">
@@ -233,7 +233,7 @@ export const IsolationInputsCard = () => {
                       control={control}
                       render={({ field }) => (
                         <div className="space-y-2">
-                          <Label htmlFor="compaction_factor">
+                          <Label htmlFor={field.name}>
                             Коэффициент уплотнения
                           </Label>
                           <div className="flex items-center gap-2">
@@ -276,7 +276,7 @@ export const IsolationInputsCard = () => {
               control={control}
               render={({ field }) => (
                 <div className="space-y-2">
-                  <Label htmlFor="t_supply">Подача</Label>
+                  <Label htmlFor={field.name}>Подача</Label>
                   <div className="flex items-center gap-2">
                     <Input
                       type="number"
@@ -297,7 +297,7 @@ export const IsolationInputsCard = () => {
               control={control}
               render={({ field }) => (
                 <div className="space-y-2">
-                  <Label htmlFor="t_return">Обратка</Label>
+                  <Label htmlFor={field.name}>Обратка</Label>
                   <div className="flex items-center gap-2">
                     <Input
                       type="number"
@@ -318,7 +318,7 @@ export const IsolationInputsCard = () => {
               control={control}
               render={({ field }) => (
                 <div className="space-y-2">
-                  <Label htmlFor="t_ambient">Наружная</Label>
+                  <Label htmlFor={field.name}>Наружная</Label>
                   <div className="flex items-center gap-2">
                     <Input
                       type="number"
@@ -331,7 +331,8 @@ export const IsolationInputsCard = () => {
                     <span className="text-sm text-muted-foreground">°C</span>
                   </div>
                   <p className="text-xs text-muted-foreground">
-                    Средняя температура отопительного периода.
+                    Средняя температура отопительного периода или температура в
+                    помещении.
                   </p>
                 </div>
               )}
@@ -344,7 +345,8 @@ export const IsolationInputsCard = () => {
         {/* Условия прокладки */}
         <section className="space-y-4">
           <h3 className="text-sm font-medium text-muted-foreground">
-            Условия прокладки. Влияет на термическое сопротивление Rₙ
+            Условия прокладки. Влияет на термическое сопротивление Rₙ и
+            нормируемую плотность теплового потока qₗ
           </h3>
 
           <Controller
@@ -362,6 +364,39 @@ export const IsolationInputsCard = () => {
                     <div className="space-y-0.5">
                       <div className="text-sm font-medium">
                         {LAYING_CONDITION_LABEL[method]}
+                      </div>
+                    </div>
+                  </Label>
+                ))}
+              </RadioGroup>
+            )}
+          />
+        </section>
+
+        <Separator />
+
+        {/* Число часов работы */}
+        <section className="space-y-4">
+          <h3 className="text-sm font-medium text-muted-foreground">
+            Число часов работы в году. Влияет на нормируемую плотность теплового
+            потока qₗ
+          </h3>
+
+          <Controller
+            name="inputs.working_hours"
+            control={control}
+            render={({ field }) => (
+              <RadioGroup
+                defaultValue={field.value}
+                className="grid gap-3 sm:grid-cols-2"
+                onValueChange={field.onChange}
+              >
+                {Object.values(WORKING_HOURS_PER_YEAR).map((hours) => (
+                  <Label className="flex cursor-pointer items-center gap-3 rounded-md border p-3 hover:bg-muted/50">
+                    <RadioGroupItem value={hours} />
+                    <div className="space-y-0.5">
+                      <div className="text-sm font-medium">
+                        {WORKING_HOURS_PER_YEAR_LABEL[hours]}
                       </div>
                     </div>
                   </Label>
