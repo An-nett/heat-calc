@@ -14,25 +14,25 @@ import { useFormContext, useWatch } from "react-hook-form";
 import type { CalcFormValues } from "../model/form";
 import { CardCustomHeader } from "../components/CardCustomHeader";
 
-export const DeltaCard = () => {
+export const DeltaWithCompactionCard = () => {
   const { control } = useFormContext<CalcFormValues>();
   const { inputs } = useWatch({ control });
-  const { delta, B } = useDerivedValues();
+  const { delta, deltaWithCompaction } = useDerivedValues();
 
-  const d = inputs?.pipe_outer_diameter ?? 0;
-  const b = B?.toFixed(4) ?? 0;
   const deltaValue = delta?.toFixed(1) ?? 0;
+  const compactionFactor = inputs?.material?.main?.compaction_factor ?? 0;
+  const deltaWithCompactionValue = deltaWithCompaction?.toFixed(1) ?? 0;
 
-  const formula = String.raw`\delta = \frac{d\,(B - 1)}{2}`;
+  const formula = String.raw`\delta_{упл} = \delta \cdot K_{упл}`;
 
-  const substitution = String.raw`\delta = \frac{${d}\cdot(${b} - 1)}{2} = ${deltaValue}\ \text{мм}`;
+  const substitution = String.raw`\delta_{упл} = ${deltaValue} \cdot ${compactionFactor} = ${deltaWithCompactionValue}\ \text{мм}`;
 
   return (
     <Card>
       <CardCustomHeader
-        title="Шаг 2. Расчёт толщины теплоизоляции δ"
-        description="Определяем требуемую толщину теплоизоляции по найденному параметру B
-            и наружному диаметру трубопровода."
+        title="Шаг 3. Расчёт толщины теплоизоляции с учётом уплотнения δупл"
+        description="Определяем проектную толщину теплоизоляции с учётом коэффициента
+            уплотнения материала."
       />
 
       <CardContent className="space-y-6">

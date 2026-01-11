@@ -31,7 +31,7 @@ export const TvInterpolatedItem = () => {
   };
 
   return (
-    <div className="rounded-md border p-4">
+    <div className="rounded-md border p-4 bg-muted/60">
       <div className="flex items-start justify-between gap-4">
         <div className="space-y-1">
           <div className="text-sm font-medium">

@@ -1,11 +1,18 @@
 import "katex/dist/katex.min.css";
 
 import { BlockMath } from "react-katex";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { useDerivedValues } from "../model/hooks/useDerivedValues";
 import type { CalcFormValues } from "../model/form";
 import { useFormContext, useWatch } from "react-hook-form";
+import { CardCustomHeader } from "../components/CardCustomHeader";
 
 export const LnBCard = () => {
   const { control } = useFormContext<CalcFormValues>();
@@ -27,19 +34,16 @@ export const LnBCard = () => {
 
   return (
     <Card>
-      <CardHeader className="pb-4">
-        <CardTitle className="text-lg">Шаг 1. Расчёт ln(B) и B</CardTitle>
-      </CardHeader>
+      <CardCustomHeader
+        title="Шаг 1. Расчёт ln(B) и B"
+        description="Вычисление вспомогательного параметра B для определения требуемой
+            толщины теплоизоляции."
+      />
 
       <CardContent className="space-y-6">
-        <p className="text-sm text-muted-foreground">
-          Вычисление вспомогательного параметра B для определения требуемой
-          толщины теплоизоляции.
-        </p>
-
         <div className="rounded-md border">
           {/* Формула */}
-          <div className="p-4">
+          <div className="p-4 bg-muted/60">
             <div className="text-xs font-medium text-muted-foreground">
               Формула
             </div>
@@ -63,20 +67,20 @@ export const LnBCard = () => {
           <Separator />
 
           {/* Результат */}
-          <div className="p-4">
+          <div className="p-4 bg-muted/60">
             <div className="text-xs font-medium text-muted-foreground">
               Результат
             </div>
 
             <div className="mt-3 grid gap-4 sm:grid-cols-2">
-              <div className="rounded-md border bg-muted/30 p-3">
+              <div className="rounded-md border p-3 bg-white">
                 <div className="text-xs text-muted-foreground">ln(B)</div>
                 <div className="mt-1 text-xl font-semibold tabular-nums">
                   {lnB?.toFixed(6) ?? "—"}
                 </div>
               </div>
 
-              <div className="rounded-md border bg-muted/30 p-3">
+              <div className="rounded-md border p-3 bg-white">
                 <div className="text-xs text-muted-foreground">B</div>
                 <div className="mt-1 text-xl font-semibold tabular-nums">
                   {B?.toFixed(4) ?? "—"}

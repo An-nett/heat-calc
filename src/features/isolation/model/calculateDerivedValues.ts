@@ -8,6 +8,7 @@ import type { BilinearInterpolationResult } from "@/shared/model/calcualteBiline
 import { getRn } from "./normatives/RnTable";
 import { calculateB } from "./calculateB";
 import { calculateDelta } from "./calculateDelta";
+import { calculateDeltaWithCompaction } from "./calculateDeltaWithCompaction";
 
 export interface DerivedValues {
   tAvgResult: AvgTempResult | null; // Средняя температура теплоносителя, °C
@@ -17,6 +18,7 @@ export interface DerivedValues {
   lnB: DecimalType | null;
   B: DecimalType | null;
   delta: DecimalType | null;
+  deltaWithCompaction: DecimalType | null; // Толщина теплоизоляции с учётом уплотнения, мм
 }
 
 export const calculateDerivedValues = (
@@ -56,6 +58,12 @@ export const calculateDerivedValues = (
     d: values.inputs.pipe_outer_diameter,
     B,
   });
+  const deltaWithCompaction = values.mode.compaction
+    ? calculateDeltaWithCompaction(
+        delta,
+        values.inputs.material.main.compaction_factor
+      )
+    : null;
 
   return {
     tAvgResult,
@@ -65,5 +73,6 @@ export const calculateDerivedValues = (
     lnB,
     B,
     delta,
+    deltaWithCompaction,
   };
 };

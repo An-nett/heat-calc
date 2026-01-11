@@ -7,6 +7,7 @@ import type { CalcFormValues } from "../model/form";
 import { useWatch, useFormContext } from "react-hook-form";
 import { getK } from "../model/normatives/kTable";
 import { SNIP_61_LINK } from "../constants/links";
+import { CardCustomHeader } from "../components/CardCustomHeader";
 
 export const NormativesCard = () => {
   const { control } = useFormContext<CalcFormValues>();
@@ -21,17 +22,14 @@ export const NormativesCard = () => {
 
   return (
     <Card>
-      <CardHeader className="pb-4">
-        <CardTitle className="text-lg">Нормируемые величины</CardTitle>
-      </CardHeader>
+      <CardCustomHeader
+        title="Нормируемые величины"
+        description="Величины приняты по нормативным таблицам. Линейное термическое
+          сопротивление Rₙ и нормируемая плотность теплового потока qₗ
+          определяются интерполяцией по расчётной температуре теплоносителя tᵥ."
+      />
 
       <CardContent className="space-y-6">
-        <p className="text-sm text-muted-foreground">
-          Величины приняты по нормативным таблицам. Линейное термическое
-          сопротивление Rₙ и нормируемая плотность теплового потока qₗ
-          определяются интерполяцией по расчётной температуре теплоносителя tᵥ.
-        </p>
-
         <div className="grid gap-4 sm:grid-cols-2">
           <NormativeItem
             title="Коэффициент дополнительных потерь, K"

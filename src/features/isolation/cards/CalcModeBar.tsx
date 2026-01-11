@@ -2,6 +2,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
+import { Badge } from "@/components/ui/badge";
 import {
   FLOW_MODE,
   FLOW_MODE_LABEL,
@@ -57,8 +58,13 @@ export const CalcModeBar = () => {
                 <Tabs value={field.value} onValueChange={field.onChange}>
                   <TabsList className="w-full">
                     {Object.values(ISOLATION_MODE).map((mode) => (
-                      <TabsTrigger key={mode} value={mode}>
-                        {ISOLATION_MODE_LABEL[mode]}
+                      <TabsTrigger key={mode} value={mode} className="relative">
+                        <span className="flex items-center gap-2">
+                          {ISOLATION_MODE_LABEL[mode]}
+                          {mode === ISOLATION_MODE.MULTI && (
+                            <Badge className="text-xs">В разработке</Badge>
+                          )}
+                        </span>
                       </TabsTrigger>
                     ))}
                   </TabsList>

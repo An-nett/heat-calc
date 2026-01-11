@@ -4,9 +4,12 @@ import { Separator } from "@/components/ui/separator";
 import { Download } from "lucide-react";
 import { useDerivedValues } from "../model/hooks/useDerivedValues";
 import { SNIP_61_LINK } from "../constants/links";
+import { Badge } from "@/components/ui/badge";
 
 export const ResultCard = () => {
-  const { delta } = useDerivedValues();
+  const { delta, deltaWithCompaction } = useDerivedValues();
+
+  const result = deltaWithCompaction ?? delta;
 
   return (
     <Card>
@@ -15,14 +18,14 @@ export const ResultCard = () => {
       </CardHeader>
 
       <CardContent className="space-y-6">
-        <div className="rounded-md border bg-muted/30 p-4">
+        <div className="rounded-md border bg-muted/60 p-4">
           <div className="text-sm text-muted-foreground">
             Требуемая толщина теплоизоляции
           </div>
 
           <div className="mt-2 flex flex-wrap items-end gap-x-3 gap-y-1">
             <div className="text-4xl font-semibold tracking-tight tabular-nums">
-              {delta?.toFixed(1) ?? "—"}
+              {result?.toFixed(1) ?? "—"}
             </div>
             <div className="pb-1 text-base text-muted-foreground">мм</div>
           </div>
@@ -44,8 +47,10 @@ export const ResultCard = () => {
             <Button className="gap-2">
               <Download className="h-4 w-4" />
               Скачать отчёт
+              <Badge variant="secondary" className="text-xs">
+                В разработке
+              </Badge>
             </Button>
-            <Button variant="secondary">Предпросмотр</Button>
           </div>
 
           <p className="text-xs text-muted-foreground">
