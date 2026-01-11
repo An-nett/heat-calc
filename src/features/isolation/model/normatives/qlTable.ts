@@ -19,6 +19,20 @@ const isOutdoorPlacement = (layingCondition: LayingCondition): boolean => {
 
 type PlacementByGroup = { outdoor: Table2D; indoor: Table2D };
 
+// TODO: Это не совсем правильно
+export const getQlSnipTable = (
+  layingCondition: LayingCondition | undefined,
+  workingHours: WorkingHoursPerYear | undefined
+): number => {
+  if (!layingCondition || !workingHours) {
+    return 0;
+  } else if (isOutdoorPlacement(layingCondition)) {
+    return workingHours === WORKING_HOURS_PER_YEAR.LESS_OR_EQUAL_5000 ? 3 : 2;
+  } else {
+    return workingHours === WORKING_HOURS_PER_YEAR.LESS_OR_EQUAL_5000 ? 5 : 4;
+  }
+};
+
 const AXES = {
   x: [20, 50, 100, 150, 200, 250, 300, 350, 400, 450, 500, 550, 600], // tAvg
   y: [

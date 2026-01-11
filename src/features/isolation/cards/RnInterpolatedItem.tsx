@@ -8,6 +8,7 @@ import {
 import { useDerivedValues } from "../model/hooks/useDerivedValues";
 import { useFormContext, useWatch } from "react-hook-form";
 import type { CalcFormValues } from "../model/form";
+import { SNIP_61_LINK } from "../constants/links";
 
 export const RnInterpolatedItem = () => {
   const { control } = useFormContext<CalcFormValues>();
@@ -19,7 +20,7 @@ export const RnInterpolatedItem = () => {
   const renderDescription = () => {
     if (!rn) return "Данные отсутствуют";
     return `Билинейная интерполяция по D = ${
-      inputs?.pipe_outer_diameter ?? "—"
+      inputs?.pipe_inner_diameter ?? "—"
     } мм и tᵥ = ${tAvgAsNumber ?? "—"}°C`;
   };
 
@@ -97,12 +98,12 @@ export const RnInterpolatedItem = () => {
                 <span>
                   Источник:{" "}
                   <a
-                    href="#"
+                    href={SNIP_61_LINK}
                     className="underline decoration-dotted hover:text-foreground"
                     target="_blank"
                     rel="noreferrer"
                   >
-                    СП 61.13330.2012, табл. B.1
+                    СП 61.13330.2012, табл. B.3
                   </a>
                 </span>
               </div>

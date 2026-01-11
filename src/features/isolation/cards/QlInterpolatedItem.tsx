@@ -8,16 +8,22 @@ import {
 import { useDerivedValues } from "../model/hooks/useDerivedValues";
 import { useFormContext, useWatch } from "react-hook-form";
 import type { CalcFormValues } from "../model/form";
+import { getQlSnipTable } from "../model/normatives/qlTable";
 
 export const QlInterpolatedItem = () => {
   const { control } = useFormContext<CalcFormValues>();
   const { inputs } = useWatch({ control });
   const { ql, tAvgResult } = useDerivedValues();
 
+  const snipTableNum = getQlSnipTable(
+    inputs?.laying_condition,
+    inputs?.working_hours
+  );
+
   const renderDescription = () => {
     if (!ql) return "Данные отсутствуют";
     return `Билинейная интерполяция по D = ${
-      inputs?.pipe_outer_diameter ?? "—"
+      inputs?.pipe_inner_diameter ?? "—"
     } мм и tᵥ = ${tAvgResult?.tAvg?.toFixed(0) ?? "—"}°C`;
   };
 
@@ -97,7 +103,8 @@ export const QlInterpolatedItem = () => {
                     target="_blank"
                     rel="noreferrer"
                   >
-                    СП 61.13330.2012, табл. 2
+                    СП 61.13330.2012{" "}
+                    {snipTableNum ? `, табл. ${snipTableNum}` : ""}
                   </a>
                 </span>
               </div>

@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Download } from "lucide-react";
 import { useDerivedValues } from "../model/hooks/useDerivedValues";
+import { SNIP_61_LINK } from "../constants/links";
 
 export const ResultCard = () => {
   const { delta } = useDerivedValues();
@@ -58,14 +59,7 @@ export const ResultCard = () => {
           <div className="text-sm font-medium">Нормативные ссылки</div>
           <div className="text-sm text-muted-foreground">
             <a
-              href="#"
-              className="underline decoration-dotted hover:text-foreground"
-            >
-              СП 41.103.2000
-            </a>
-            <span className="px-2 text-muted-foreground/60">·</span>
-            <a
-              href="#"
+              href={SNIP_61_LINK}
               className="underline decoration-dotted hover:text-foreground"
             >
               СП 61.13330.2012

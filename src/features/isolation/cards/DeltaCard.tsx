@@ -57,13 +57,6 @@ export const DeltaCard = () => {
             </div>
           </div>
         </div>
-
-        <a
-          href="#"
-          className="text-xs text-muted-foreground underline decoration-dotted hover:text-foreground"
-        >
-          СП 41.103.2000 — формула расчёта толщины теплоизоляции
-        </a>
       </CardContent>
     </Card>
   );

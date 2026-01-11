@@ -85,13 +85,6 @@ export const LnBCard = () => {
             </div>
           </div>
         </div>
-
-        <a
-          href="#"
-          className="text-xs text-muted-foreground underline decoration-dotted hover:text-foreground"
-        >
-          СП 41.103.2000 — формула расчёта параметра B
-        </a>
       </CardContent>
     </Card>
   );

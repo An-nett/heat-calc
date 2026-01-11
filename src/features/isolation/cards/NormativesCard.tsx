@@ -6,12 +6,16 @@ import { QlInterpolatedItem } from "./QlInterpolatedItem";
 import type { CalcFormValues } from "../model/form";
 import { useWatch, useFormContext } from "react-hook-form";
 import { getK } from "../model/normatives/kTable";
+import { SNIP_61_LINK } from "../constants/links";
 
 export const NormativesCard = () => {
   const { control } = useFormContext<CalcFormValues>();
 
   const layingMethod = useWatch({ control, name: "inputs.laying_method" });
-  const pipeDiameter = useWatch({ control, name: "inputs.pipe_diameter" });
+  const pipeDiameter = useWatch({
+    control,
+    name: "inputs.pipe_inner_diameter",
+  });
 
   const k = getK(layingMethod, pipeDiameter);
 
@@ -33,8 +37,8 @@ export const NormativesCard = () => {
             title="Коэффициент дополнительных потерь, K"
             value={k ? k.toString() : "—"}
             unit="—"
-            linkText="СП 41.103.2000, табл. 1"
-            linkHref="#"
+            linkText="СП 61.13330.2012, таблица В.1"
+            linkHref={SNIP_61_LINK}
           />
 
           <TvInterpolatedItem />

@@ -1,3 +1,5 @@
+import { SNIP_61_LINK } from "@/features/isolation/constants/links";
+
 export function PageHeader() {
   return (
     <header className="space-y-4">
@@ -11,9 +13,14 @@ export function PageHeader() {
         </p>
       </div>
 
-      <p className="text-sm text-muted-foreground">
-        СП 41.103.2000 · СП 61.13330.2012
-      </p>
+      <a
+        href={SNIP_61_LINK}
+        className="text-sm text-muted-foreground underline decoration-dotted hover:text-foreground"
+        target="_blank"
+        rel="noreferrer"
+      >
+        СП 61.13330.2012
+      </a>
     </header>
   );
 }

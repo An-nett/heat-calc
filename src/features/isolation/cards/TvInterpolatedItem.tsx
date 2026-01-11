@@ -8,6 +8,7 @@ import {
 import { useDerivedValues } from "../model/hooks/useDerivedValues";
 import { useFormContext, useWatch } from "react-hook-form";
 import type { CalcFormValues } from "../model/form";
+import { SNIP_61_LINK } from "../constants/links";
 
 export const TvInterpolatedItem = () => {
   const { control } = useFormContext<CalcFormValues>();
@@ -73,7 +74,7 @@ export const TvInterpolatedItem = () => {
                   <span>
                     Источник:{" "}
                     <a
-                      href="#"
+                      href={SNIP_61_LINK}
                       className="underline decoration-dotted hover:text-foreground"
                       target="_blank"
                       rel="noreferrer"
@@ -88,7 +89,7 @@ export const TvInterpolatedItem = () => {
         </Accordion>
       ) : (
         <a
-          href="#"
+          href={SNIP_61_LINK}
           className="text-xs text-muted-foreground underline decoration-dotted hover:text-foreground"
           target="_blank"
           rel="noreferrer"

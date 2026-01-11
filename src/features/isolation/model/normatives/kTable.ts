@@ -14,10 +14,8 @@ export const getK = (
   layingMethod: LayingMethod,
   diameterMm: number | null | undefined
 ): DecimalType | null => {
-  console.log(diameterMm);
   if (layingMethod === LAYING_METHOD.STEEL_MOVABLE) {
     if (diameterMm == null || Number.isNaN(diameterMm)) {
-      console.log("errorro", Number.isNaN(diameterMm), diameterMm);
       return null;
     }
 
