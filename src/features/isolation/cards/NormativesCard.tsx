@@ -1,4 +1,4 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { RnInterpolatedItem } from "./RnInterpolatedItem";
 import { NormativeItem } from "@/shared/NormativeItem";
 import { TvInterpolatedItem } from "./TvInterpolatedItem";

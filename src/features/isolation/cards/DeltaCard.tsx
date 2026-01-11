@@ -1,13 +1,7 @@
 import "katex/dist/katex.min.css";
 
 import { BlockMath } from "react-katex";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { useDerivedValues } from "../model/hooks/useDerivedValues";
 import { useFormContext, useWatch } from "react-hook-form";
