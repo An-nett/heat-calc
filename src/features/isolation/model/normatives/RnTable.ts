@@ -97,9 +97,10 @@ export function getRn(
   if (!pipe_diameter || !tAvg) {
     return null;
   }
+  const tAvgNumber = tAvg.toNumber();
   return interpolate2DDecimal(
     RN_BY_LAYING_CONDITION[LayingCondition],
-    pipe_diameter,
-    tAvg
+    Math.max(100, tAvgNumber),
+    pipe_diameter
   );
 }

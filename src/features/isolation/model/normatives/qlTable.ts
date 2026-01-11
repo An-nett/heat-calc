@@ -45,5 +45,5 @@ export function getQl(
   if (!pipe_diameter || !tAvg) {
     return null;
   }
-  return interpolate2DDecimal(QL_TABLE, pipe_diameter, tAvg);
+  return interpolate2DDecimal(QL_TABLE, tAvg, pipe_diameter);
 }

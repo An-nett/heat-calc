@@ -14,11 +14,13 @@ export const RnInterpolatedItem = () => {
   const { inputs } = useWatch({ control });
   const { rn, tAvgResult } = useDerivedValues();
 
+  const tAvgAsNumber = tAvgResult?.tAvg ? +tAvgResult.tAvg.toFixed(0) : null;
+
   const renderDescription = () => {
     if (!rn) return "Данные отсутствуют";
     return `Билинейная интерполяция по D = ${
       inputs?.pipe_diameter ?? "—"
-    } мм и tᵥ = ${tAvgResult?.tAvg?.toFixed(0) ?? "—"}°C`;
+    } мм и tᵥ = ${tAvgAsNumber ?? "—"}°C`;
   };
 
   return (
@@ -30,6 +32,9 @@ export const RnInterpolatedItem = () => {
           </div>
           <div className="text-xs text-muted-foreground">
             {renderDescription()}
+            {tAvgAsNumber && tAvgAsNumber < 100
+              ? " (при tᵥ < 100°C используется значение при tᵥ = 100°C)"
+              : ""}
           </div>
         </div>
 
@@ -55,7 +60,7 @@ export const RnInterpolatedItem = () => {
                 <>
                   <div className="flex justify-between">
                     <span>
-                      D = {rn.axes.x1} мм, tᵥ = {rn.axes.y1}°C
+                      D = {rn.axes.y1} мм, tᵥ = {rn.axes.x1}°C
                     </span>
                     <span className="tabular-nums">
                       Rₙ = {rn.tablePoints.z11.toFixed(2)}
@@ -63,7 +68,7 @@ export const RnInterpolatedItem = () => {
                   </div>
                   <div className="flex justify-between">
                     <span>
-                      D = {rn.axes.x2} мм, tᵥ = {rn.axes.y1}°C
+                      D = {rn.axes.y2} мм, tᵥ = {rn.axes.x1}°C
                     </span>
                     <span className="tabular-nums">
                       Rₙ = {rn.tablePoints.z12.toFixed(2)}
@@ -71,7 +76,7 @@ export const RnInterpolatedItem = () => {
                   </div>
                   <div className="flex justify-between">
                     <span>
-                      D = {rn.axes.x1} мм, tᵥ = {rn.axes.y2}°C
+                      D = {rn.axes.y1} мм, tᵥ = {rn.axes.x2}°C
                     </span>
                     <span className="tabular-nums">
                       Rₙ = {rn.tablePoints.z21.toFixed(2)}
@@ -79,7 +84,7 @@ export const RnInterpolatedItem = () => {
                   </div>
                   <div className="flex justify-between">
                     <span>
-                      D = {rn.axes.x2} мм, tᵥ = {rn.axes.y2}°C
+                      D = {rn.axes.y2} мм, tᵥ = {rn.axes.x2}°C
                     </span>
                     <span className="tabular-nums">
                       Rₙ = {rn.tablePoints.z22.toFixed(2)}

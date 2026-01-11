@@ -55,7 +55,7 @@ export const QlInterpolatedItem = () => {
                 <>
                   <div className="flex justify-between">
                     <span>
-                      D = {ql.axes.x1} мм, tᵥ = {ql.axes.y1}°C
+                      D = {ql.axes.y1} мм, tᵥ = {ql.axes.x1}°C
                     </span>
                     <span className="tabular-nums">
                       qₗ = {ql.tablePoints.z11.toFixed(1)}
@@ -63,7 +63,7 @@ export const QlInterpolatedItem = () => {
                   </div>
                   <div className="flex justify-between">
                     <span>
-                      D = {ql.axes.x2} мм, tᵥ = {ql.axes.y1}°C
+                      D = {ql.axes.y2} мм, tᵥ = {ql.axes.x1}°C
                     </span>
                     <span className="tabular-nums">
                       qₗ = {ql.tablePoints.z12.toFixed(1)}
@@ -71,7 +71,7 @@ export const QlInterpolatedItem = () => {
                   </div>
                   <div className="flex justify-between">
                     <span>
-                      D = {ql.axes.x1} мм, tᵥ = {ql.axes.y2}°C
+                      D = {ql.axes.y1} мм, tᵥ = {ql.axes.x2}°C
                     </span>
                     <span className="tabular-nums">
                       qₗ = {ql.tablePoints.z21.toFixed(1)}
@@ -79,7 +79,7 @@ export const QlInterpolatedItem = () => {
                   </div>
                   <div className="flex justify-between">
                     <span>
-                      D = {ql.axes.x2} мм, tᵥ = {ql.axes.y2}°C
+                      D = {ql.axes.y2} мм, tᵥ = {ql.axes.x2}°C
                     </span>
                     <span className="tabular-nums">
                       qₗ = {ql.tablePoints.z22.toFixed(1)}
