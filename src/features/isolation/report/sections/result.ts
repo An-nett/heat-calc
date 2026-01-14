@@ -27,10 +27,7 @@ export const resultSection = (
   supplyValues: DerivedValues,
   returnValues: DerivedValues
 ) => {
-  const compFactor =
-    values.inputs.material.main.compaction_factor
-      ?.toString()
-      ?.replace(".", ",") || "-";
+  const compFactor = values.inputs.material.main.compaction_factor;
   const supplyRes = supplyValues.delta?.toFixed(1)?.replace(".", ",") || "-";
   const supplyResWithCompaction =
     supplyValues.deltaWithCompaction?.toFixed(1)?.replace(".", ",") || "-";

@@ -140,10 +140,6 @@ export const calcDescriptionSection = () => {
         }),
       ],
     }),
-    just(
-      "Rн – линейное термическое сопротивление теплоотдаче наружной изоляции, м*°С/Вт. Принимается по табл. В.3 [3];",
-      { indentLeft: 360 }
-    ),
     new Paragraph({
       alignment: AlignmentType.JUSTIFIED,
       spacing: { after: 200 },
@@ -167,10 +163,6 @@ export const calcDescriptionSection = () => {
         }),
       ],
     }),
-    just(
-      "ql – плотность теплового потока, Вт/м. Принимается по табл. 2 [3] в соответствии с расчетной температурой. Промежуточные величины определяются интерполяцией;",
-      { indentLeft: 360, after: 300 }
-    ),
     new Paragraph({
       alignment: AlignmentType.JUSTIFIED,
       spacing: { after: 200 },
