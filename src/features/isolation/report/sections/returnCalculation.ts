@@ -1,5 +1,16 @@
-import { Paragraph, TextRun, AlignmentType, UnderlineType } from "docx";
+import {
+  Paragraph,
+  TextRun,
+  AlignmentType,
+  UnderlineType,
+  MathRoundBrackets,
+  MathFraction,
+  Math,
+} from "docx";
 import { REPORT_FONT, REPORT_SIZE } from "../formatting";
+import { mr, sub, supSub } from "../mathHelpers";
+import type { CalcFormValues } from "../../model/form";
+import type { DerivedValues } from "../../model/calculateDerivedValues";
 
 const tr = (
   text: string,
@@ -15,7 +26,23 @@ const tr = (
     italics: opts?.italic,
   });
 
-export const returnPipeCalculationSection = () => {
+export const returnPipeCalculationSection = (
+  values: CalcFormValues,
+  returnValues: DerivedValues
+) => {
+  const tAvg = returnValues.tAvgResult?.tAvg?.toFixed(0) || "-";
+  const ql = returnValues.ql?.result.exact.toFixed(1).replace(".", ",") || "-";
+  const lambda =
+    values.inputs.material.main.lambda?.toFixed(3).replace(".", ",") || "-";
+  const K = returnValues.k?.toString().replace(".", ",") || "-";
+  const tAmb = values.inputs.t_ambient?.toString().replace(".", ",") || "-";
+  const R = returnValues.rn?.result.exact.toFixed(1).replace(".", ",") || "-";
+  const lnB = returnValues.lnB?.toFixed(3)?.replace(".", ",") || "-";
+  const B = returnValues.B?.toFixed(3)?.replace(".", ",") || "-";
+  const innDiam = values.inputs.pipe_inner_diameter?.toString() || "-";
+  const outDiam = values.inputs.pipe_outer_diameter?.toString() || "-";
+  const res = returnValues.delta?.toFixed(1)?.replace(".", ",") || "-";
+
   return [
     // Заголовок
     new Paragraph({
@@ -23,7 +50,7 @@ export const returnPipeCalculationSection = () => {
       spacing: { before: 300, after: 250 },
       children: [
         new TextRun({
-          text: "Обратный трубопровод отопления Т2 Ду50",
+          text: `Обратный трубопровод отопления Т2 Ду${innDiam}`,
           font: REPORT_FONT,
           size: REPORT_SIZE,
           bold: true,
@@ -43,19 +70,29 @@ export const returnPipeCalculationSection = () => {
         tr(" теплового потока для обратного трубопровода Т2 составит: "),
         tr("q"),
         tr("l", { sub: true }),
-        tr(" = 10 Вт/м [3]."),
+        tr(` = ${ql} Вт/м [3].`),
       ],
     }),
 
     // lnB подстановка (по центру)
     new Paragraph({
       alignment: AlignmentType.CENTER,
-      spacing: { after: 280 },
+      spacing: { before: 250, after: 250 },
       children: [
-        tr("lnB = 2 * 3,14 * 0,042 * ( "),
-        tr("1,2 * (50 − 20)"),
-        tr(" / 10 − 0,25"),
-        tr(" ) = 0,884", { italic: true }),
+        new Math({
+          children: [
+            mr(`ln B = 2 * 3,14 * ${lambda} * `),
+            new MathRoundBrackets({
+              children: [
+                new MathFraction({
+                  numerator: [mr(`${K} * (${tAvg} - ${tAmb})`)],
+                  denominator: [mr(ql)],
+                }),
+                mr(` − ${R} = ${lnB}`),
+              ],
+            }),
+          ],
+        }),
       ],
     }),
 
@@ -66,7 +103,7 @@ export const returnPipeCalculationSection = () => {
       children: [
         tr("По таблице натуральных логарифмов определяем величину "),
         tr("B", { italic: true }),
-        tr(" = 2,421."),
+        tr(` = ${B}.`),
       ],
     }),
 
@@ -80,16 +117,25 @@ export const returnPipeCalculationSection = () => {
     // Формула δ
     new Paragraph({
       alignment: AlignmentType.CENTER,
-      spacing: { after: 200 },
+      spacing: { before: 300, after: 300 },
       children: [
-        tr("δ"),
-        tr("из", { sub: true }),
-        tr(" = "),
-        tr("d"),
-        tr("ст", { sub: true }),
-        tr(" * ("),
-        tr("B", { italic: true }),
-        tr(" − 1) / 2"),
+        new Math({
+          children: [
+            // δ_из =
+            sub("δ", "из"),
+            mr(" = "),
+
+            // дробь
+            new MathFraction({
+              numerator: [
+                // d_ст^н
+                supSub("d", "ст", "н"),
+                mr("* (B − 1)"),
+              ],
+              denominator: [mr("2")],
+            }),
+          ],
+        }),
       ],
     }),
 
@@ -118,11 +164,25 @@ export const returnPipeCalculationSection = () => {
     // Подстановка и результат δ
     new Paragraph({
       alignment: AlignmentType.CENTER,
-      spacing: { after: 300 },
+      spacing: { before: 300, after: 300 },
       children: [
-        tr("δ"),
-        tr("из", { sub: true }),
-        tr(" = 57 * (2,421 − 1) / 2 = 40,5 мм", { italic: true }),
+        new Math({
+          children: [
+            // δ_из =
+            sub("δ", "из"),
+            mr(" = "),
+
+            // дробь
+            new MathFraction({
+              numerator: [
+                // d_ст^н
+                mr(`${outDiam} * (${B} - 1)`),
+              ],
+              denominator: [mr("2")],
+            }),
+            mr(` = ${res} мм`),
+          ],
+        }),
       ],
     }),
   ];

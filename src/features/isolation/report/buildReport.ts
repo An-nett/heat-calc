@@ -7,20 +7,33 @@ import { supplyCalculationSection } from "./sections/supplyCalculation";
 import { returnPipeCalculationSection } from "./sections/returnCalculation";
 import { compactionSection } from "./sections/compaction";
 import { resultSection } from "./sections/result";
+import { calculateDerivedValues } from "../model/calculateDerivedValues";
+import { FLOW_MODE } from "../model/calcModes";
 
-export const buildReport = async (_values: CalcFormValues) => {
+export const buildReport = async (values: CalcFormValues) => {
+  const supplyResults = calculateDerivedValues({
+    ...values,
+    mode: { ...values.mode, flow: FLOW_MODE.SUPPLY },
+  });
+  const returnResults = calculateDerivedValues({
+    ...values,
+    mode: { ...values.mode, flow: FLOW_MODE.RETURN },
+  });
+
   const doc = new Document({
     sections: [
       {
         properties: {},
         children: [
           ...sourcesSection(),
-          ...inputDataSection(),
+          ...inputDataSection(values, supplyResults, returnResults),
           ...calcDescriptionSection(),
-          ...supplyCalculationSection(),
-          ...returnPipeCalculationSection(),
-          ...compactionSection(),
-          ...resultSection(),
+          ...supplyCalculationSection(values, supplyResults),
+          ...returnPipeCalculationSection(values, returnResults),
+          ...(values.mode.compaction
+            ? compactionSection(values, supplyResults, returnResults)
+            : []),
+          ...resultSection(values, supplyResults, returnResults),
         ],
       },
     ],

@@ -6,10 +6,10 @@ import type { CalcFormValues } from "../model/form";
 
 export const DownloadReportButton = () => {
   const { control } = useFormContext<CalcFormValues>();
-  const { inputs } = useWatch({ control });
+  const values = useWatch({ control });
 
   const downloadReport = async () => {
-    const blob = await buildReport(inputs as CalcFormValues);
+    const blob = await buildReport(values as CalcFormValues);
 
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");

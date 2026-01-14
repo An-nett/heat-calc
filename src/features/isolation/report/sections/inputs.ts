@@ -1,5 +1,13 @@
 import { Paragraph, TextRun, AlignmentType, UnderlineType } from "docx";
 import { REPORT_FONT, REPORT_SIZE } from "../formatting";
+import type { CalcFormValues } from "../../model/form";
+import type { DerivedValues } from "../../model/calculateDerivedValues";
+import {
+  LAYING_CONDITION,
+  LAYING_METHOD,
+  type LayingCondition,
+  type LayingMethod,
+} from "../../model/calcModes";
 
 const p = (
   text: string,
@@ -21,7 +29,29 @@ const p = (
     ],
   });
 
-export const inputDataSection = () => {
+const getLayingParams = (
+  laying_condition: LayingCondition,
+  laying_method: LayingMethod
+) => {
+  if (laying_condition === LAYING_CONDITION.OUTDOOR) {
+    return { text: "воздуха на улице", point: "а", type: "открытая" };
+  } else if (laying_method === LAYING_METHOD.TRENCHLESS) {
+    return { text: "грунта", point: "в", type: "открытая в помещении" };
+  } else {
+    return { text: "воздуха в помещении ", point: "б", type: "бесканальная" };
+  }
+};
+
+export const inputDataSection = (
+  values: CalcFormValues,
+  supplyValues: DerivedValues,
+  returnValues: DerivedValues
+) => {
+  const layingParams = getLayingParams(
+    values.inputs.laying_condition,
+    values.inputs.laying_method
+  );
+
   return [
     // Заголовок
     new Paragraph({
@@ -42,32 +72,52 @@ export const inputDataSection = () => {
     p("1. Диаметр трубопроводов:", { indentLeft: 360 }),
 
     //    - отопление...
-    p(" -отопление Т1, Т2 ф 57х3,5 (Ду50),", { indentLeft: 720 }),
+    p(
+      ` -отопление Т1, Т2 ф ${values.inputs.pipe_outer_diameter
+        ?.toString()
+        ?.replace(".", ",")}х${values.inputs.pipe_wall_thickness
+        ?.toString()
+        ?.replace(".", ",")} (Ду${values.inputs.pipe_inner_diameter
+        ?.toString()
+        ?.replace(".", ",")}),`,
+      { indentLeft: 720 }
+    ),
 
     // 2. Тип прокладки...
-    p("2. Тип прокладки открытая по помещению подвала;", { indentLeft: 360 }),
+    p(`2. Тип прокладки ${layingParams.type};`, { indentLeft: 360 }),
 
     // 3. Температурный график...
-    p("3. Температурный график: 95/70;", { indentLeft: 360 }),
+    p(
+      `3. Температурный график: ${values.inputs.t_supply
+        ?.toString()
+        ?.replace(".", ",")}/${values.inputs.t_return
+        ?.toString()
+        ?.replace(".", ",")};`,
+      { indentLeft: 360 }
+    ),
 
     // 4. Температура ... принята 20°C (согласно требованиям источника [3] п 6.1.5 (а/б/в));
     p(
-      "4. Температура (воздуха на улице/воздуха в помещении подвала/грунта) принята 20°C " +
-        "(согласно требованиям источника [3] п 6.1.5 (а/б/в));",
+      `4. Температура ${layingParams.text} принята ${values.inputs.t_ambient}°C (согласно требованиям источника [3] п 6.1.5 (${layingParams.point})`,
       { indentLeft: 360 }
     ),
 
     // 5. Коэффициент теплопроводности...
     p(
-      "5. Коэффициент теплопроводности принят в соответствии с техническими характеристиками " +
-        "применяемого изоляционного материала (....................) 0,042 Вт/м²*°С",
+      `5. Коэффициент теплопроводности принят в соответствии с техническими характеристиками 
+      применяемого изоляционного материала (______________) ${values.inputs.material.main.lambda
+        ?.toFixed(3)
+        ?.replace(".", ",")} Вт/м²*°С`,
       { indentLeft: 360 }
     ),
 
     // 6. Средняя температура теплоносителя...
     p(
-      "6. Средняя температура теплоносителя принимается в соответствии с табл. В.5 источника [3] " +
-        "и составляет 65°C для подающего трубопровода, 50°C для обратного трубопровода.",
+      `6. Средняя температура теплоносителя принимается в соответствии с табл. В.5 источника [3] и составляет ${supplyValues.tAvgResult?.tAvg?.toFixed(
+        0
+      )}°C для подающего трубопровода, ${returnValues.tAvgResult?.tAvg?.toFixed(
+        0
+      )}°C для обратного трубопровода.`,
       { indentLeft: 360, after: 300 }
     ),
   ];

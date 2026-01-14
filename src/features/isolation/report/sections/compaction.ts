@@ -1,5 +1,7 @@
 import { Paragraph, TextRun, AlignmentType, UnderlineType } from "docx";
 import { REPORT_FONT, REPORT_SIZE } from "../formatting";
+import type { CalcFormValues } from "../../model/form";
+import type { DerivedValues } from "../../model/calculateDerivedValues";
 
 const tr = (
   text: string,
@@ -14,7 +16,22 @@ const tr = (
     bold: opts?.bold,
   });
 
-export const compactionSection = () => {
+export const compactionSection = (
+  values: CalcFormValues,
+  supplyValues: DerivedValues,
+  returnValues: DerivedValues
+) => {
+  const compFactor =
+    values.inputs.material.main.compaction_factor
+      ?.toString()
+      ?.replace(".", ",") || "-";
+  const supplyRes = supplyValues.delta?.toFixed(1)?.replace(".", ",") || "-";
+  const supplyResWithCompaction =
+    supplyValues.deltaWithCompaction?.toFixed(1)?.replace(".", ",") || "-";
+  const returnRes = returnValues.delta?.toFixed(1)?.replace(".", ",") || "-";
+  const returnResWithCompaction =
+    returnValues.deltaWithCompaction?.toFixed(1)?.replace(".", ",") || "-";
+
   return [
     // Заголовок
     new Paragraph({
@@ -41,7 +58,7 @@ export const compactionSection = () => {
         tr(" - коэффициент уплотнения теплоизоляционных изделий, "),
         tr("К"),
         tr("с", { sub: true }),
-        tr(" = 1,05."),
+        tr(` = ${compFactor}.`),
       ],
     }),
 
@@ -52,8 +69,8 @@ export const compactionSection = () => {
       children: [
         tr("δ"),
         tr("1", { sub: true }),
-        tr(" = 45,9 * 1,05 = "),
-        tr("48 мм", { bold: true }),
+        tr(` = ${supplyRes} * ${compFactor} = `),
+        tr(`${supplyResWithCompaction} мм`, { bold: true }),
         tr(" (по Т1)"),
       ],
     }),
@@ -65,8 +82,8 @@ export const compactionSection = () => {
       children: [
         tr("δ"),
         tr("2", { sub: true }),
-        tr(" = 40,5 * 1,05 = "),
-        tr("43 мм", { bold: true }),
+        tr(` = ${returnRes} * ${compFactor} = `),
+        tr(`${returnResWithCompaction} мм`, { bold: true }),
         tr(" (по Т2)"),
       ],
     }),

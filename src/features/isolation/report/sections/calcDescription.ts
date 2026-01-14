@@ -1,5 +1,14 @@
-import { Paragraph, TextRun, AlignmentType, UnderlineType } from "docx";
+import {
+  Paragraph,
+  TextRun,
+  AlignmentType,
+  UnderlineType,
+  MathRoundBrackets,
+  MathFraction,
+  Math,
+} from "docx";
 import { REPORT_FONT, REPORT_SIZE } from "../formatting";
+import { mr, sub } from "../mathHelpers";
 
 const just = (text: string, opts?: { after?: number; indentLeft?: number }) =>
   new Paragraph({
@@ -47,16 +56,36 @@ export const calcDescriptionSection = () => {
       ],
     }),
 
-    // Формула (пока текстом, по центру)
+    // Формула
+
     new Paragraph({
       alignment: AlignmentType.CENTER,
-      spacing: { after: 250 },
+      spacing: { before: 250, after: 250 },
       children: [
-        new TextRun({
-          text: "lnB = 2 * π * λ * ( K*(tв − tн) / ql − Rн )",
-          font: REPORT_FONT,
-          size: REPORT_SIZE,
-          italics: true,
+        new Math({
+          children: [
+            // "ln B = 2πλ"
+            mr("ln B = 2 * π * λ * "),
+
+            // "( ... )"
+            new MathRoundBrackets({
+              children: [
+                // (K·(t_v − t_n))/q_l
+                new MathFraction({
+                  numerator: [
+                    mr("K * ("),
+                    sub("t", "в"),
+                    mr(" − "),
+                    sub("t", "н"),
+                    mr(")"),
+                  ],
+                  denominator: [sub("q", "l")],
+                }),
+                mr(" − "),
+                sub("R", "н"),
+              ],
+            }),
+          ],
         }),
       ],
     }),
