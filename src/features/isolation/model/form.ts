@@ -26,6 +26,7 @@ export type CalcFormValues = {
     t_return: number | null; // Температура обратки, °C
     t_ambient: number | null; // Температура окружающей среды, °C
     pipe_outer_diameter: number | null; // Наружный диаметр трубы, мм
+    pipe_wall_thickness: number | null; // Толщина стенки трубы, мм
     pipe_inner_diameter: number | null; // Внутренний диаметр трубы, мм
     laying_condition: LayingCondition; // Условие прокладки
     laying_method: LayingMethod; // Способ прокладки
@@ -44,6 +45,7 @@ export const defaultValues: CalcFormValues = {
     t_return: null,
     t_ambient: null,
     pipe_outer_diameter: null,
+    pipe_wall_thickness: null,
     pipe_inner_diameter: null,
     laying_condition: LAYING_CONDITION.OUTDOOR,
     laying_method: LAYING_METHOD.STEEL_MOVABLE,

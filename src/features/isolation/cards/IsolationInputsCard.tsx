@@ -84,6 +84,31 @@ export const IsolationInputsCard = () => {
                 />
 
                 <Controller
+                  name="inputs.pipe_wall_thickness"
+                  control={control}
+                  render={({ field }) => (
+                    <div className="space-y-2">
+                      <Label htmlFor={field.name} className="font-normal">
+                        Толщина стенки трубопровода
+                      </Label>
+                      <div className="flex items-center gap-2">
+                        <Input
+                          type="number"
+                          value={field.value ?? ""}
+                          placeholder="0"
+                          onChange={(e) =>
+                            field.onChange(e.target.valueAsNumber ?? null)
+                          }
+                        />
+                        <span className="text-sm text-muted-foreground">
+                          мм
+                        </span>
+                      </div>
+                    </div>
+                  )}
+                />
+
+                <Controller
                   name="inputs.pipe_inner_diameter"
                   control={control}
                   render={({ field }) => (

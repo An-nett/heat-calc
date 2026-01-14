@@ -53,17 +53,19 @@ export const CalcModeBar = () => {
             control={control}
             render={({ field }) => (
               <div className="space-y-2">
-                <div className="text-sm font-medium">Конструкция изоляции</div>
+                <div className="flex gap-2">
+                  <div className="text-sm font-medium">
+                    Конструкция изоляции
+                  </div>
+                  <Badge className="text-xs">В разработке</Badge>
+                </div>
 
-                <Tabs value={field.value} onValueChange={field.onChange}>
+                <Tabs value={field.value}>
                   <TabsList className="w-full">
                     {Object.values(ISOLATION_MODE).map((mode) => (
                       <TabsTrigger key={mode} value={mode} className="relative">
                         <span className="flex items-center gap-2">
                           {ISOLATION_MODE_LABEL[mode]}
-                          {mode === ISOLATION_MODE.MULTI && (
-                            <Badge className="text-xs">В разработке</Badge>
-                          )}
                         </span>
                       </TabsTrigger>
                     ))}

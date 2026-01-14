@@ -1,10 +1,8 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import { Download } from "lucide-react";
 import { useDerivedValues } from "../model/hooks/useDerivedValues";
 import { SNIP_61_LINK } from "../constants/links";
-import { Badge } from "@/components/ui/badge";
+import { DownloadReportButton } from "../components/DownloadReportButton";
 
 export const ResultCard = () => {
   const { delta, deltaWithCompaction } = useDerivedValues();
@@ -44,13 +42,7 @@ export const ResultCard = () => {
           </p>
 
           <div className="flex flex-wrap gap-2 pt-1">
-            <Button className="gap-2">
-              <Download className="h-4 w-4" />
-              Скачать отчёт
-              <Badge variant="secondary" className="text-xs">
-                В разработке
-              </Badge>
-            </Button>
+            <DownloadReportButton />
           </div>
 
           <p className="text-xs text-muted-foreground">
