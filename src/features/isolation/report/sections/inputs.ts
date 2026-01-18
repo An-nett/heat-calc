@@ -36,9 +36,13 @@ const getLayingParams = (
   if (laying_condition === LAYING_CONDITION.OUTDOOR) {
     return { text: "воздуха на улице", point: "а", type: "открытая" };
   } else if (laying_method === LAYING_METHOD.TRENCHLESS) {
-    return { text: "грунта", point: "в", type: "открытая в помещении" };
+    return { text: "грунта", point: "в", type: "бесканальная" };
   } else {
-    return { text: "воздуха в помещении ", point: "б", type: "бесканальная" };
+    return {
+      text: "воздуха в помещении ",
+      point: "б",
+      type: "открытая в помещении",
+    };
   }
 };
 

@@ -6,6 +6,9 @@ import {
 } from "@/components/ui/collapsible";
 import { Button } from "@/components/ui/button";
 import { ChevronDown } from "lucide-react";
+import { Controller, useFormContext } from "react-hook-form";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { FLOW_MODE, FLOW_MODE_LABEL } from "../model/calcModes";
 
 /**
  * Враппер секции "Ход расчёта" в стиле, как на макете:
@@ -23,6 +26,8 @@ export const StepsSection = ({
   subtitle?: string;
   defaultOpen?: boolean;
 }>) => {
+  const { control } = useFormContext();
+
   const [open, setOpen] = React.useState(defaultOpen);
 
   return (
@@ -39,16 +44,36 @@ export const StepsSection = ({
             </div>
           </div>
 
-          <CollapsibleTrigger asChild>
-            <Button variant="outline" size="sm" className="shrink-0 gap-2">
-              {open ? "Скрыть" : "Показать"}
-              <ChevronDown
-                className={`h-4 w-4 transition-transform ${
-                  open ? "rotate-180" : ""
-                }`}
-              />
-            </Button>
-          </CollapsibleTrigger>
+          <div className="flex gap-6">
+            <Controller
+              name="mode.flow"
+              control={control}
+              render={({ field }) => (
+                <div className="space-y-2">
+                  <Tabs value={field.value} onValueChange={field.onChange}>
+                    <TabsList className="w-full">
+                      {Object.values(FLOW_MODE).map((mode) => (
+                        <TabsTrigger key={mode} value={mode}>
+                          {FLOW_MODE_LABEL[mode]}
+                        </TabsTrigger>
+                      ))}
+                    </TabsList>
+                  </Tabs>
+                </div>
+              )}
+            />
+
+            <CollapsibleTrigger asChild>
+              <Button variant="outline" size="sm" className="shrink-0 gap-2">
+                {open ? "Скрыть" : "Показать"}
+                <ChevronDown
+                  className={`h-4 w-4 transition-transform ${
+                    open ? "rotate-180" : ""
+                  }`}
+                />
+              </Button>
+            </CollapsibleTrigger>
+          </div>
         </div>
       </div>
 
