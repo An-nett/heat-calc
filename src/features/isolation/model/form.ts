@@ -25,9 +25,18 @@ export type CalcFormValues = {
     t_supply: number | null; // Температура подачи, °C
     t_return: number | null; // Температура обратки, °C
     t_ambient: number | null; // Температура окружающей среды, °C
-    pipe_outer_diameter: number | null; // Наружный диаметр трубы, мм
-    pipe_wall_thickness: number | null; // Толщина стенки трубы, мм
-    pipe_inner_diameter: number | null; // Внутренний диаметр трубы, мм
+    pipe: {
+      supply: {
+        outer_diameter: number | null; // Наружный диаметр трубы, мм
+        wall_thickness: number | null; // Толщина стенки трубы, мм
+        inner_diameter: number | null; // Внутренний диаметр трубы, мм
+      };
+      return: {
+        outer_diameter: number | null; // Наружный диаметр трубы, мм
+        wall_thickness: number | null; // Толщина стенки трубы, мм
+        inner_diameter: number | null; // Внутренний диаметр трубы, мм
+      };
+    };
     laying_condition: LayingCondition; // Условие прокладки
     laying_method: LayingMethod; // Способ прокладки
     working_hours: WorkingHoursPerYear; // Рабочие часы в году
@@ -44,9 +53,18 @@ export const defaultValues: CalcFormValues = {
     t_supply: null,
     t_return: null,
     t_ambient: null,
-    pipe_outer_diameter: null,
-    pipe_wall_thickness: null,
-    pipe_inner_diameter: null,
+    pipe: {
+      supply: {
+        outer_diameter: null,
+        wall_thickness: null,
+        inner_diameter: null,
+      },
+      return: {
+        outer_diameter: null,
+        wall_thickness: null,
+        inner_diameter: null,
+      },
+    },
     laying_condition: LAYING_CONDITION.OUTDOOR,
     laying_method: LAYING_METHOD.STEEL_MOVABLE,
     working_hours: WORKING_HOURS_PER_YEAR.MORE_THAN_5000,

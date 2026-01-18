@@ -9,11 +9,14 @@ import { useDerivedValues } from "../model/hooks/useDerivedValues";
 import { useFormContext, useWatch } from "react-hook-form";
 import type { CalcFormValues } from "../model/form";
 import { SNIP_61_LINK } from "../constants/links";
+import { FLOW_MODE } from "../model/calcModes";
 
 export const TvInterpolatedItem = () => {
   const { control } = useFormContext<CalcFormValues>();
 
-  const { inputs } = useWatch({ control });
+  const { inputs, mode } = useWatch({ control });
+
+  const isSupplyMode = mode?.flow === FLOW_MODE.SUPPLY;
 
   const { tAvgResult } = useDerivedValues();
 
@@ -25,9 +28,9 @@ export const TvInterpolatedItem = () => {
         tAvgResult.tAvg ?? "—"
       }°C`;
 
-    return `Интерполяция по t подачи = ${inputs?.t_supply ?? "—"}°C между ${
-      tAvgResult.x1
-    }°C и ${tAvgResult.x2}°C`;
+    return `Интерполяция по t ${isSupplyMode ? "подачи" : "обратки"} = ${
+      (isSupplyMode ? inputs?.t_supply : inputs?.t_return) ?? "—"
+    }°C между ${tAvgResult.x1}°C и ${tAvgResult.x2}°C`;
   };
 
   return (

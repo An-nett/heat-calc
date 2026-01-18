@@ -9,10 +9,13 @@ import { useDerivedValues } from "../model/hooks/useDerivedValues";
 import { useFormContext, useWatch } from "react-hook-form";
 import type { CalcFormValues } from "../model/form";
 import { getQlSnipTable } from "../model/normatives/qlTable";
+import { FLOW_MODE } from "../model/calcModes";
 
 export const QlInterpolatedItem = () => {
   const { control } = useFormContext<CalcFormValues>();
-  const { inputs } = useWatch({ control });
+  const { inputs, mode } = useWatch({ control });
+  const isSupplyMode = mode?.flow === FLOW_MODE.SUPPLY;
+
   const { ql, tAvgResult } = useDerivedValues();
 
   const snipTableNum = getQlSnipTable(
@@ -23,7 +26,7 @@ export const QlInterpolatedItem = () => {
   const renderDescription = () => {
     if (!ql) return "Данные отсутствуют";
     return `Билинейная интерполяция по D = ${
-      inputs?.pipe_inner_diameter ?? "—"
+      inputs?.pipe?.[isSupplyMode ? "supply" : "return"]?.inner_diameter ?? "—"
     } мм и tᵥ = ${tAvgResult?.tAvg?.toFixed(0) ?? "—"}°C`;
   };
 

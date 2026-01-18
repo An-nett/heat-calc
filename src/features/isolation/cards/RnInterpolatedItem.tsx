@@ -9,10 +9,14 @@ import { useDerivedValues } from "../model/hooks/useDerivedValues";
 import { useFormContext, useWatch } from "react-hook-form";
 import type { CalcFormValues } from "../model/form";
 import { SNIP_61_LINK } from "../constants/links";
+import { FLOW_MODE } from "../model/calcModes";
 
 export const RnInterpolatedItem = () => {
   const { control } = useFormContext<CalcFormValues>();
-  const { inputs } = useWatch({ control });
+  const { inputs, mode } = useWatch({ control });
+
+  const isSupplyMode = mode?.flow === FLOW_MODE.SUPPLY;
+
   const { rn, tAvgResult } = useDerivedValues();
 
   const tAvgAsNumber = tAvgResult?.tAvg ? +tAvgResult.tAvg.toFixed(0) : null;
@@ -20,7 +24,7 @@ export const RnInterpolatedItem = () => {
   const renderDescription = () => {
     if (!rn) return "Данные отсутствуют";
     return `Билинейная интерполяция по D = ${
-      inputs?.pipe_inner_diameter ?? "—"
+      inputs?.pipe?.[isSupplyMode ? "supply" : "return"]?.inner_diameter ?? "—"
     } мм и tᵥ = ${tAvgAsNumber ?? "—"}°C`;
   };
 

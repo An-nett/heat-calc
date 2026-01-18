@@ -39,8 +39,8 @@ export const returnPipeCalculationSection = (
   const R = returnValues.rn?.result.exact.toFixed(1).replace(".", ",") || "-";
   const lnB = returnValues.lnB?.toFixed(3)?.replace(".", ",") || "-";
   const B = returnValues.B?.toFixed(3)?.replace(".", ",") || "-";
-  const innDiam = values.inputs.pipe_inner_diameter?.toString() || "-";
-  const outDiam = values.inputs.pipe_outer_diameter?.toString() || "-";
+  const innDiam = values.inputs.pipe.return.inner_diameter?.toString() || "-";
+  const outDiam = values.inputs.pipe.return.outer_diameter?.toString() || "-";
   const res = returnValues.delta?.toFixed(1)?.replace(".", ",") || "-";
 
   return [
@@ -50,7 +50,7 @@ export const returnPipeCalculationSection = (
       spacing: { before: 300, after: 250 },
       children: [
         new TextRun({
-          text: `Обратный трубопровод отопления Т2 Ду${innDiam}`,
+          text: `Обратный трубопровод Ду${innDiam}`,
           font: REPORT_FONT,
           size: REPORT_SIZE,
           bold: true,
@@ -67,7 +67,7 @@ export const returnPipeCalculationSection = (
         tr("Нормативная плотность "),
         tr("q"),
         tr("l", { sub: true }),
-        tr(" теплового потока для обратного трубопровода Т2 составит: "),
+        tr(" теплового потока для обратного трубопровода составит: "),
         tr("q"),
         tr("l", { sub: true }),
         tr(` = ${ql} Вт/м [3].`),

@@ -3,22 +3,12 @@ import { RnInterpolatedItem } from "./RnInterpolatedItem";
 import { NormativeItem } from "@/shared/NormativeItem";
 import { TvInterpolatedItem } from "./TvInterpolatedItem";
 import { QlInterpolatedItem } from "./QlInterpolatedItem";
-import type { CalcFormValues } from "../model/form";
-import { useWatch, useFormContext } from "react-hook-form";
-import { getK } from "../model/normatives/kTable";
 import { SNIP_61_LINK } from "../constants/links";
 import { CardCustomHeader } from "../components/CardCustomHeader";
+import { useDerivedValues } from "../model/hooks/useDerivedValues";
 
 export const NormativesCard = () => {
-  const { control } = useFormContext<CalcFormValues>();
-
-  const layingMethod = useWatch({ control, name: "inputs.laying_method" });
-  const pipeDiameter = useWatch({
-    control,
-    name: "inputs.pipe_inner_diameter",
-  });
-
-  const k = getK(layingMethod, pipeDiameter);
+  const { k } = useDerivedValues();
 
   return (
     <Card>

@@ -7,13 +7,17 @@ import { useDerivedValues } from "../model/hooks/useDerivedValues";
 import { useFormContext, useWatch } from "react-hook-form";
 import type { CalcFormValues } from "../model/form";
 import { CardCustomHeader } from "../components/CardCustomHeader";
+import { FLOW_MODE } from "../model/calcModes";
 
 export const DeltaCard = () => {
   const { control } = useFormContext<CalcFormValues>();
-  const { inputs } = useWatch({ control });
+  const { inputs, mode } = useWatch({ control });
+  const isSupplyMode = mode?.flow === FLOW_MODE.SUPPLY;
+
   const { delta, B } = useDerivedValues();
 
-  const d = inputs?.pipe_outer_diameter ?? 0;
+  const d =
+    inputs?.pipe?.[isSupplyMode ? "supply" : "return"]?.outer_diameter ?? 0;
   const b = B?.toFixed(4) ?? 0;
   const deltaValue = delta?.toFixed(1) ?? 0;
 

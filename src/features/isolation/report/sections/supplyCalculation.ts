@@ -39,7 +39,7 @@ export const supplyCalculationSection = (
   const R = supplyValues.rn?.result.exact.toFixed(1).replace(".", ",") || "-";
   const lnB = supplyValues.lnB?.toFixed(3)?.replace(".", ",") || "-";
   const B = supplyValues.B?.toFixed(3)?.replace(".", ",") || "-";
-  const outDiam = values.inputs.pipe_outer_diameter?.toString() || "-";
+  const outDiam = values.inputs.pipe.supply.outer_diameter?.toString() || "-";
   const res = supplyValues.delta?.toFixed(1)?.replace(".", ",") || "-";
 
   return [
@@ -49,7 +49,7 @@ export const supplyCalculationSection = (
       spacing: { before: 300, after: 250 },
       children: [
         new TextRun({
-          text: `Подающий трубопровод отопления Т1 Ду${values.inputs.pipe_inner_diameter}`,
+          text: `Подающий трубопровод Ду${values.inputs.pipe.supply.inner_diameter}`,
           font: REPORT_FONT,
           size: REPORT_SIZE,
           bold: true,
@@ -67,7 +67,7 @@ export const supplyCalculationSection = (
         tr("q"),
         tr("l", { sub: true }),
         tr(
-          ` теплового потока для подающего трубопровода Т1 при температуре ${tAvg}°С составляет: `
+          ` теплового потока для подающего трубопровода при температуре ${tAvg}°С составляет: `
         ),
         tr("q"),
         tr("l", { sub: true }),

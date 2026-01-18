@@ -57,81 +57,169 @@ export const IsolationInputsCard = () => {
               Геометрия
             </AccordionTrigger>
             <AccordionContent className="py-6 px-4 border-t-1">
-              <div className="grid gap-4 sm:grid-cols-3">
-                <Controller
-                  name="inputs.pipe_outer_diameter"
-                  control={control}
-                  render={({ field }) => (
-                    <div className="space-y-2">
-                      <Label htmlFor={field.name} className="font-normal">
-                        Наружный диаметр трубопровода
-                      </Label>
-                      <div className="flex items-center gap-2">
-                        <Input
-                          type="number"
-                          value={field.value ?? ""}
-                          placeholder="0"
-                          onChange={(e) =>
-                            field.onChange(e.target.valueAsNumber ?? null)
-                          }
-                        />
-                        <span className="text-sm text-muted-foreground">
-                          мм
-                        </span>
-                      </div>
-                    </div>
-                  )}
-                />
+              <div className="space-y-6">
+                <div>
+                  <h4 className="text-sm font-medium text-muted-foreground mb-4">
+                    Подача
+                  </h4>
+                  <div className="grid gap-4 sm:grid-cols-3">
+                    <Controller
+                      name="inputs.pipe.supply.outer_diameter"
+                      control={control}
+                      render={({ field }) => (
+                        <div className="space-y-2">
+                          <Label htmlFor={field.name} className="font-normal">
+                            Наружный диаметр трубопровода
+                          </Label>
+                          <div className="flex items-center gap-2">
+                            <Input
+                              type="number"
+                              value={field.value ?? ""}
+                              placeholder="0"
+                              onChange={(e) =>
+                                field.onChange(e.target.valueAsNumber ?? null)
+                              }
+                            />
+                            <span className="text-sm text-muted-foreground">
+                              мм
+                            </span>
+                          </div>
+                        </div>
+                      )}
+                    />
 
-                <Controller
-                  name="inputs.pipe_wall_thickness"
-                  control={control}
-                  render={({ field }) => (
-                    <div className="space-y-2">
-                      <Label htmlFor={field.name} className="font-normal">
-                        Толщина стенки трубопровода
-                      </Label>
-                      <div className="flex items-center gap-2">
-                        <Input
-                          type="number"
-                          value={field.value ?? ""}
-                          placeholder="0"
-                          onChange={(e) =>
-                            field.onChange(e.target.valueAsNumber ?? null)
-                          }
-                        />
-                        <span className="text-sm text-muted-foreground">
-                          мм
-                        </span>
-                      </div>
-                    </div>
-                  )}
-                />
+                    <Controller
+                      name="inputs.pipe.supply.wall_thickness"
+                      control={control}
+                      render={({ field }) => (
+                        <div className="space-y-2">
+                          <Label htmlFor={field.name} className="font-normal">
+                            Толщина стенки трубопровода
+                          </Label>
+                          <div className="flex items-center gap-2">
+                            <Input
+                              type="number"
+                              value={field.value ?? ""}
+                              placeholder="0"
+                              onChange={(e) =>
+                                field.onChange(e.target.valueAsNumber ?? null)
+                              }
+                            />
+                            <span className="text-sm text-muted-foreground">
+                              мм
+                            </span>
+                          </div>
+                        </div>
+                      )}
+                    />
 
-                <Controller
-                  name="inputs.pipe_inner_diameter"
-                  control={control}
-                  render={({ field }) => (
-                    <div className="space-y-2">
-                      <Label htmlFor={field.name} className="font-normal">
-                        Внутренний диаметр трубопровода
-                      </Label>
-                      <div className="flex items-center gap-2">
-                        <Input
-                          type="number"
-                          value={field.value ?? ""}
-                          placeholder="0"
-                          onChange={(e) =>
-                            field.onChange(e.target.valueAsNumber ?? null)
-                          }
-                        />
-                        <span className="text-sm text-muted-foreground">
-                          мм
-                        </span>
-                      </div>
-                    </div>
-                  )}
-                />
+                    <Controller
+                      name="inputs.pipe.supply.inner_diameter"
+                      control={control}
+                      render={({ field }) => (
+                        <div className="space-y-2">
+                          <Label htmlFor={field.name} className="font-normal">
+                            Внутренний диаметр трубопровода
+                          </Label>
+                          <div className="flex items-center gap-2">
+                            <Input
+                              type="number"
+                              value={field.value ?? ""}
+                              placeholder="0"
+                              onChange={(e) =>
+                                field.onChange(e.target.valueAsNumber ?? null)
+                              }
+                            />
+                            <span className="text-sm text-muted-foreground">
+                              мм
+                            </span>
+                          </div>
+                        </div>
+                      )}
+                    />
+                  </div>
+                </div>
+                <div>
+                  <h4 className="text-sm font-medium text-muted-foreground mb-4">
+                    Обратка
+                  </h4>
+                  <div className="grid gap-4 sm:grid-cols-3">
+                    <Controller
+                      name="inputs.pipe.return.outer_diameter"
+                      control={control}
+                      render={({ field }) => (
+                        <div className="space-y-2">
+                          <Label htmlFor={field.name} className="font-normal">
+                            Наружный диаметр трубопровода
+                          </Label>
+                          <div className="flex items-center gap-2">
+                            <Input
+                              type="number"
+                              value={field.value ?? ""}
+                              placeholder="0"
+                              onChange={(e) =>
+                                field.onChange(e.target.valueAsNumber ?? null)
+                              }
+                            />
+                            <span className="text-sm text-muted-foreground">
+                              мм
+                            </span>
+                          </div>
+                        </div>
+                      )}
+                    />
+
+                    <Controller
+                      name="inputs.pipe.return.wall_thickness"
+                      control={control}
+                      render={({ field }) => (
+                        <div className="space-y-2">
+                          <Label htmlFor={field.name} className="font-normal">
+                            Толщина стенки трубопровода
+                          </Label>
+                          <div className="flex items-center gap-2">
+                            <Input
+                              type="number"
+                              value={field.value ?? ""}
+                              placeholder="0"
+                              onChange={(e) =>
+                                field.onChange(e.target.valueAsNumber ?? null)
+                              }
+                            />
+                            <span className="text-sm text-muted-foreground">
+                              мм
+                            </span>
+                          </div>
+                        </div>
+                      )}
+                    />
+
+                    <Controller
+                      name="inputs.pipe.return.inner_diameter"
+                      control={control}
+                      render={({ field }) => (
+                        <div className="space-y-2">
+                          <Label htmlFor={field.name} className="font-normal">
+                            Внутренний диаметр трубопровода
+                          </Label>
+                          <div className="flex items-center gap-2">
+                            <Input
+                              type="number"
+                              value={field.value ?? ""}
+                              placeholder="0"
+                              onChange={(e) =>
+                                field.onChange(e.target.valueAsNumber ?? null)
+                              }
+                            />
+                            <span className="text-sm text-muted-foreground">
+                              мм
+                            </span>
+                          </div>
+                        </div>
+                      )}
+                    />
+                  </div>
+                </div>
               </div>
             </AccordionContent>
           </AccordionItem>

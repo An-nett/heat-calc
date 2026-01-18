@@ -52,6 +52,17 @@ export const inputDataSection = (
     values.inputs.laying_method
   );
 
+  const {
+    outer_diameter: supply_outer_diameter,
+    wall_thickness: supply_wall_thickness,
+    inner_diameter: supply_inner_diameter,
+  } = values.inputs.pipe.supply;
+  const {
+    outer_diameter: return_outer_diameter,
+    wall_thickness: return_wall_thickness,
+    inner_diameter: return_inner_diameter,
+  } = values.inputs.pipe.return;
+
   return [
     // Заголовок
     new Paragraph({
@@ -71,13 +82,25 @@ export const inputDataSection = (
     // 1. Диаметр трубопроводов:
     p("1. Диаметр трубопроводов:", { indentLeft: 360 }),
 
-    //    - отопление...
+    //    - подача...
     p(
-      ` -отопление Т1, Т2 ф ${values.inputs.pipe_outer_diameter
+      ` -подача ф ${supply_outer_diameter
         ?.toString()
-        ?.replace(".", ",")}х${values.inputs.pipe_wall_thickness
+        ?.replace(".", ",")}х${supply_wall_thickness
         ?.toString()
-        ?.replace(".", ",")} (Ду${values.inputs.pipe_inner_diameter
+        ?.replace(".", ",")} (Ду${supply_inner_diameter
+        ?.toString()
+        ?.replace(".", ",")}),`,
+      { indentLeft: 720 }
+    ),
+
+    //    - обратка...
+    p(
+      ` -обратка ф ${return_outer_diameter
+        ?.toString()
+        ?.replace(".", ",")}х${return_wall_thickness
+        ?.toString()
+        ?.replace(".", ",")} (Ду${return_inner_diameter
         ?.toString()
         ?.replace(".", ",")}),`,
       { indentLeft: 720 }
