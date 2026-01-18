@@ -2,6 +2,7 @@ import { Paragraph, TextRun, AlignmentType, UnderlineType } from "docx";
 import { REPORT_FONT, REPORT_SIZE } from "../formatting";
 import type { CalcFormValues } from "../../model/form";
 import type { DerivedValues } from "../../model/calculateDerivedValues";
+import { SYSTEM_MODE } from "../../model/calcModes";
 
 const tr = (
   text: string,
@@ -21,6 +22,8 @@ export const compactionSection = (
   supplyValues: DerivedValues,
   returnValues: DerivedValues
 ) => {
+  const isDualMode = values.mode.system_mode === SYSTEM_MODE.DUAL;
+
   const compFactor =
     values.inputs.material.main.compaction_factor
       ?.toString()
@@ -78,14 +81,16 @@ export const compactionSection = (
     // δ2 = ...
     new Paragraph({
       alignment: AlignmentType.JUSTIFIED,
-      spacing: { after: 300 },
-      children: [
-        tr("δ"),
-        tr("2", { sub: true }),
-        tr(` = ${returnRes} * ${compFactor} = `),
-        tr(`${returnResWithCompaction} мм`, { bold: true }),
-        tr(" (по Т2)"),
-      ],
+      spacing: { after: isDualMode ? 300 : 0 },
+      children: isDualMode
+        ? [
+            tr("δ"),
+            tr("2", { sub: true }),
+            tr(` = ${returnRes} * ${compFactor} = `),
+            tr(`${returnResWithCompaction} мм`, { bold: true }),
+            tr(" (по Т2)"),
+          ]
+        : [],
     }),
   ];
 };

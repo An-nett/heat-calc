@@ -5,6 +5,7 @@ import type { DerivedValues } from "../../model/calculateDerivedValues";
 import {
   LAYING_CONDITION,
   LAYING_METHOD,
+  SYSTEM_MODE,
   type LayingCondition,
   type LayingMethod,
 } from "../../model/calcModes";
@@ -51,6 +52,8 @@ export const inputDataSection = (
   supplyValues: DerivedValues,
   returnValues: DerivedValues
 ) => {
+  const isDualMode = values.mode.system_mode === SYSTEM_MODE.DUAL;
+
   const layingParams = getLayingParams(
     values.inputs.laying_condition,
     values.inputs.laying_method
@@ -100,13 +103,15 @@ export const inputDataSection = (
 
     //    - обратка...
     p(
-      ` -обратка ф ${return_outer_diameter
-        ?.toString()
-        ?.replace(".", ",")}х${return_wall_thickness
-        ?.toString()
-        ?.replace(".", ",")} (Ду${return_inner_diameter
-        ?.toString()
-        ?.replace(".", ",")}),`,
+      isDualMode
+        ? ` -обратка ф ${return_outer_diameter
+            ?.toString()
+            ?.replace(".", ",")}х${return_wall_thickness
+            ?.toString()
+            ?.replace(".", ",")} (Ду${return_inner_diameter
+            ?.toString()
+            ?.replace(".", ",")}),`
+        : "",
       { indentLeft: 720 }
     ),
 
@@ -117,9 +122,11 @@ export const inputDataSection = (
     p(
       `3. Температурный график: ${values.inputs.t_supply
         ?.toString()
-        ?.replace(".", ",")}/${values.inputs.t_return
-        ?.toString()
-        ?.replace(".", ",")};`,
+        ?.replace(".", ",")}${
+        isDualMode
+          ? `/${values.inputs.t_return?.toString()?.replace(".", ",")};`
+          : ""
+      }`,
       { indentLeft: 360 }
     ),
 
@@ -142,9 +149,13 @@ export const inputDataSection = (
     p(
       `6. Средняя температура теплоносителя принимается в соответствии с табл. В.5 источника [3] и составляет ${supplyValues.tAvgResult?.tAvg?.toFixed(
         0
-      )}°C для подающего трубопровода, ${returnValues.tAvgResult?.tAvg?.toFixed(
-        0
-      )}°C для обратного трубопровода.`,
+      )}°C для подающего трубопровода${
+        isDualMode
+          ? `, ${returnValues.tAvgResult?.tAvg?.toFixed(
+              0
+            )}°C для обратного трубопровода.`
+          : "."
+      }`,
       { indentLeft: 360, after: 300 }
     ),
   ];

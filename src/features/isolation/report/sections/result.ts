@@ -8,6 +8,7 @@ import {
 import { REPORT_FONT, REPORT_SIZE } from "../formatting";
 import type { DerivedValues } from "../../model/calculateDerivedValues";
 import type { CalcFormValues } from "../../model/form";
+import { SYSTEM_MODE } from "../../model/calcModes";
 
 const tr = (
   text: string,
@@ -27,6 +28,8 @@ export const resultSection = (
   supplyValues: DerivedValues,
   returnValues: DerivedValues
 ) => {
+  const isDualMode = values.mode.system_mode === SYSTEM_MODE.DUAL;
+
   const compFactor = values.inputs.material.main.compaction_factor;
   const supplyRes = supplyValues.delta?.toFixed(1)?.replace(".", ",") || "-";
   const supplyResWithCompaction =
@@ -80,23 +83,25 @@ export const resultSection = (
         tr(`${compFactor ? supplyResWithCompaction : supplyRes} мм`, {
           bold: true,
         }),
-        tr(" (по Т1)"),
+        tr(" (по подающему трубопроводу)"),
       ],
     }),
 
     // δ2
     new Paragraph({
       alignment: AlignmentType.JUSTIFIED,
-      spacing: { after: 300 },
-      children: [
-        tr("δ"),
-        tr("2", { sub: true }),
-        tr(" = "),
-        tr(`${compFactor ? returnResWithCompaction : returnRes} мм`, {
-          bold: true,
-        }),
-        tr(" (по Т2)"),
-      ],
+      spacing: { after: isDualMode ? 300 : 0 },
+      children: isDualMode
+        ? [
+            tr("δ"),
+            tr("2", { sub: true }),
+            tr(" = "),
+            tr(`${compFactor ? returnResWithCompaction : returnRes} мм`, {
+              bold: true,
+            }),
+            tr(" (по обратному трубопроводу)"),
+          ]
+        : [],
     }),
   ];
 };

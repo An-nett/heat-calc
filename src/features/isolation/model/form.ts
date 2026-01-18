@@ -7,6 +7,7 @@ import {
   type IsolationMode,
   type LayingCondition,
   type LayingMethod,
+  type SystemMode,
   type WorkingHoursPerYear,
 } from "./calcModes";
 
@@ -20,6 +21,7 @@ export type CalcFormValues = {
     flow: FlowMode;
     isolation: IsolationMode;
     compaction: boolean;
+    system_mode: SystemMode;
   };
   inputs: {
     t_supply: number | null; // Температура подачи, °C

@@ -12,6 +12,20 @@ export const FLOW_MODE_LABEL: Record<FlowMode, string> = {
   return: "Обратка",
 };
 
+/* -------------------- Тип системы -------------------- */
+
+export const SYSTEM_MODE = {
+  DUAL: "dual",
+  SINGLE: "single",
+} as const;
+
+export type SystemMode = (typeof SYSTEM_MODE)[keyof typeof SYSTEM_MODE];
+
+export const SYSTEM_MODE_LABEL: Record<SystemMode, string> = {
+  dual: "Подача + обратка",
+  single: "Только подача",
+};
+
 /* -------------------- Тип изоляции -------------------- */
 
 export const ISOLATION_MODE = {
@@ -33,6 +47,7 @@ export const DEFAULT_CALC_MODE = {
   flow: FLOW_MODE.SUPPLY,
   isolation: ISOLATION_MODE.SINGLE,
   compaction: false,
+  system_mode: SYSTEM_MODE.DUAL,
 } as const;
 
 /* -------------------- Условия прокладки -------------------- */

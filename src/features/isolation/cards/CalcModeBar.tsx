@@ -5,15 +5,16 @@ import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
 import {
   FLOW_MODE,
-  FLOW_MODE_LABEL,
   ISOLATION_MODE,
   ISOLATION_MODE_LABEL,
+  SYSTEM_MODE,
+  SYSTEM_MODE_LABEL,
 } from "../model/calcModes";
 import { Controller, useFormContext } from "react-hook-form";
 import type { CalcFormValues } from "../model/form";
 
 export const CalcModeBar = () => {
-  const { control } = useFormContext<CalcFormValues>();
+  const { control, setValue } = useFormContext<CalcFormValues>();
 
   return (
     <Card>
@@ -23,25 +24,33 @@ export const CalcModeBar = () => {
 
       <CardContent className="space-y-5">
         <div className="grid gap-4 sm:grid-cols-2">
-          {/* Подача / Обратка */}
+          {/* Подача + обратка / Только подача */}
           <Controller
-            name="mode.flow"
+            name="mode.system_mode"
             control={control}
             render={({ field }) => (
               <div className="space-y-2">
-                <div className="text-sm font-medium">Теплоноситель</div>
-                <Tabs value={field.value} onValueChange={field.onChange}>
+                <div className="text-sm font-medium">Режим системы</div>
+                <Tabs
+                  value={field.value}
+                  onValueChange={(v) => {
+                    field.onChange(v);
+                    if (v === SYSTEM_MODE.SINGLE) {
+                      setValue("mode.flow", FLOW_MODE.SUPPLY);
+                    }
+                  }}
+                >
                   <TabsList className="w-full">
-                    {Object.values(FLOW_MODE).map((mode) => (
+                    {Object.values(SYSTEM_MODE).map((mode) => (
                       <TabsTrigger key={mode} value={mode}>
-                        {FLOW_MODE_LABEL[mode]}
+                        {SYSTEM_MODE_LABEL[mode]}
                       </TabsTrigger>
                     ))}
                   </TabsList>
                 </Tabs>
 
                 <p className="text-xs text-muted-foreground">
-                  Влияет на расчётную температуру tᵥ и выбор табличных значений.
+                  Влияет на то, для какого трубопровода производятся расчеты.
                 </p>
               </div>
             )}

@@ -8,9 +8,11 @@ import { returnPipeCalculationSection } from "./sections/returnCalculation";
 import { compactionSection } from "./sections/compaction";
 import { resultSection } from "./sections/result";
 import { calculateDerivedValues } from "../model/calculateDerivedValues";
-import { FLOW_MODE } from "../model/calcModes";
+import { FLOW_MODE, SYSTEM_MODE } from "../model/calcModes";
 
 export const buildReport = async (values: CalcFormValues) => {
+  const isDualMode = values.mode.system_mode === SYSTEM_MODE.DUAL;
+
   const supplyResults = calculateDerivedValues({
     ...values,
     mode: { ...values.mode, flow: FLOW_MODE.SUPPLY },
@@ -29,7 +31,9 @@ export const buildReport = async (values: CalcFormValues) => {
           ...inputDataSection(values, supplyResults, returnResults),
           ...calcDescriptionSection(),
           ...supplyCalculationSection(values, supplyResults),
-          ...returnPipeCalculationSection(values, returnResults),
+          ...(isDualMode
+            ? returnPipeCalculationSection(values, returnResults)
+            : []),
           ...(values.mode.compaction
             ? compactionSection(values, supplyResults, returnResults)
             : []),
